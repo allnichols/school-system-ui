@@ -10,15 +10,20 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@apollo/client": "^3.9.9",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.0",
     "@mui/material": "^5.15.14",
     "@tanstack/react-router": "^1.22.8",
     "@tanstack/router-devtools": "^1.25.1",
+    "graphql": "^16.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^5.0.2",
+    "@graphql-codegen/typescript": "^4.0.6",
+    "@graphql-codegen/typescript-resolvers": "^4.0.6",
     "@tanstack/router-vite-plugin": "^1.22.8",
     "@types/react": "^18.2.64",
     "@types/react-dom": "^18.2.21",
