@@ -28,8 +28,8 @@ const TeachersPage = () => {
       <Table aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>First Name</TableCell>
-            <TableCell>Last Name</TableCell>
+            <TableCell sx={{ fontWeight: "bold" }}>First Name</TableCell>
+            <TableCell sx={{ fontWeight: "bold" }}>Last Name</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
