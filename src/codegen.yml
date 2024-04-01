@@ -1,0 +1,8 @@
+# Generating types based upon my schema
+schema: "http://localhost:8080/graqhql"
+documents: "src/**/*.graphql"
+generates:
+  src/generated/graphql.ts:
+    plugins:
+      - "typescript"
+      - "typescript-resolvers"

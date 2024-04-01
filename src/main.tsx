@@ -8,7 +8,7 @@ import { routeTree } from "./routeTree.gen.ts";
 const router = createRouter({ routeTree });
 
 const client = new ApolloClient({
-  uri: "https://flyby-router-demo.herokuapp.com/",
+  uri: "http://localhost:8080/graphql",
   cache: new InMemoryCache(),
 });
 
