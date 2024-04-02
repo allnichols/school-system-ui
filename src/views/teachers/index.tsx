@@ -1,6 +1,7 @@
 import Table from "@mui/material/Table";
+import styled from "@mui/material/styles/styled";
 import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
@@ -20,6 +21,25 @@ const GET_TEACHERS = gql`
   }
 `;
 
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  "&:nth-of-type(odd)": {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  "&:last-child td, &:last-child th": {
+    border: 0,
+  },
+}));
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    fontSize: 18,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 16,
+  },
+}));
+
 const TeachersPage = () => {
   const { loading, error, data } = useQuery(GET_TEACHERS);
 
@@ -28,33 +48,36 @@ const TeachersPage = () => {
 
   return (
     <TableContainer component={Paper}>
-      <Table aria-label="teachers table">
+      <Table aria-label="teachers table" size="small">
         <TableHead>
           <TableRow>
-            <TableCell sx={{ fontWeight: "bold" }}>First Name</TableCell>
-            <TableCell sx={{ fontWeight: "bold" }}>Last Name</TableCell>
-            <TableCell sx={{ fontWeight: "bold" }}>Email</TableCell>
-            <TableCell sx={{ fontWeight: "bold" }}>Actions</TableCell>
+            <StyledTableCell sx={{ fontWeight: "bold" }}>Name</StyledTableCell>
+            <StyledTableCell align="right" sx={{ fontWeight: "bold" }}>
+              Email
+            </StyledTableCell>
+            <StyledTableCell align="right" sx={{ fontWeight: "bold" }}>
+              Actions
+            </StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {data.getAllTeachers.map((teacher: any) => (
-            <TableRow key={teacher.id}>
-              <TableCell>{teacher.firstName}</TableCell>
-              <TableCell>{teacher.lastName}</TableCell>
-              <TableCell>{teacher.email}</TableCell>
-              <TableCell>
+            <StyledTableRow key={teacher.id}>
+              <TableCell component="th" scope="row">
+                {teacher.firstName + " " + teacher.lastName}
+              </TableCell>
+              <TableCell align="right">{teacher.email}</TableCell>
+              <TableCell align="right">
                 <ButtonGroup
                   disableElevation
-                  variant="contained"
+                  variant="outlined"
                   aria-label="Disabled button group"
                 >
-                  <Button>Edit</Button>
-                  <Button>Delete</Button>
                   <Button>View</Button>
+                  <Button>Delete</Button>
                 </ButtonGroup>
               </TableCell>
-            </TableRow>
+            </StyledTableRow>
           ))}
         </TableBody>
       </Table>
