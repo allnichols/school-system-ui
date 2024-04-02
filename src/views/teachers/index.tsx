@@ -9,6 +9,7 @@ import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import { useQuery, gql } from "@apollo/client";
+import { Link, Outlet } from "@tanstack/react-router";
 
 const GET_TEACHERS = gql`
   query {
@@ -73,7 +74,18 @@ const TeachersPage = () => {
                   variant="outlined"
                   aria-label="Disabled button group"
                 >
-                  <Button>View</Button>
+                  <Button>
+                    <Link
+                      style={{
+                        color: "white",
+                        textDecoration: "none",
+                      }}
+                      to="/teachers/$id"
+                      params={{ id: teacher.id }}
+                    >
+                      View
+                    </Link>
+                  </Button>
                   <Button>Delete</Button>
                 </ButtonGroup>
               </TableCell>
