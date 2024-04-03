@@ -10,7 +10,12 @@ import dayjs from "dayjs";
 type AddTeacherModalProps = {
   isOpen: boolean;
   handleClose: () => void;
-  handleAddTeacher: () => void;
+  handleAddTeacher: (
+    firstName: string,
+    lastName: string,
+    email: string,
+    dob: Date | null
+  ) => void;
 };
 
 const style = {
@@ -111,7 +116,7 @@ const AddTeacherModal = ({
           >
             <Button
               variant="contained"
-              onClick={() => handleAddTeacher()}
+              onClick={() => handleAddTeacher(firstName, lastName, email, dob)}
               disabled={!firstName || !lastName || !email || !dob}
             >
               Add Teacher

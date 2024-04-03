@@ -10,6 +10,7 @@ import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import Alert from "@mui/material/Alert";
 import AddTeacherModal from "./components/addTeacherModal";
 import { useQuery, useMutation } from "@apollo/client";
 import { GET_TEACHERS, CREATE_TEACHER } from "./gql";
@@ -44,13 +45,21 @@ const TeachersPage = () => {
   const handleOpenModal = () => setModal(true);
   const handleCloseModal = () => setModal(false);
 
-  const handleAddTeacher = () => {
+  const handleAddTeacher = (
+    firstName: string,
+    lastName: string,
+    email: string,
+    dob: Date | null
+  ) => {
+    console.log(firstName, lastName, email, dob);
     createTeacher({
       variables: {
-        firstName: "John",
-        lastName: "Doe",
-        email: "",
-        dob: "",
+        teacher: {
+          firstName: firstName,
+          lastName: lastName,
+          email: email,
+          dob: dob?.toISOString(),
+        },
       },
     });
   };
@@ -120,6 +129,10 @@ const TeachersPage = () => {
           </TableBody>
         </Table>
       </TableContainer>
+      {createdTeacher && (
+        <Alert severity="success">Teacher created successfully</Alert>
+      )}
+      {createdError && <Alert severity="error">Error creating teacher</Alert>}
     </>
   );
 };
