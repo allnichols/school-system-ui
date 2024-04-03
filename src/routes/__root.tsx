@@ -3,10 +3,11 @@ import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 import Header from "../components/header";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
+import Localization from "../utils/Localization";
 
 export const Route = createRootRoute({
   component: () => (
-    <>
+    <Localization>
       <Header>
         <Button>
           <Link
@@ -35,6 +36,6 @@ export const Route = createRootRoute({
       <Container style={{ marginTop: "2rem" }} maxWidth="lg">
         <Outlet />
       </Container>
-    </>
+    </Localization>
   ),
 });
