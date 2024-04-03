@@ -11,19 +11,9 @@ import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import AddTeacherModal from "./components/addTeacherModal";
-import { useQuery, gql } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
+import { GET_TEACHERS, CREATE_TEACHER } from "./gql";
 import { Link } from "@tanstack/react-router";
-
-const GET_TEACHERS = gql`
-  query {
-    getAllTeachers {
-      id
-      firstName
-      lastName
-      email
-    }
-  }
-`;
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "&:nth-of-type(odd)": {
@@ -46,12 +36,23 @@ const StyledTableCell = styled(TableCell)(() => ({
 
 const TeachersPage = () => {
   const { loading, error, data } = useQuery(GET_TEACHERS);
+  const [
+    createTeacher,
+    { data: createdTeacher, loading: createdLoading, error: createdError },
+  ] = useMutation(CREATE_TEACHER);
   const [modal, setModal] = React.useState(false);
   const handleOpenModal = () => setModal(true);
   const handleCloseModal = () => setModal(false);
 
   const handleAddTeacher = () => {
-    console.log("Add teacher");
+    createTeacher({
+      variables: {
+        firstName: "John",
+        lastName: "Doe",
+        email: "",
+        dob: "",
+      },
+    });
   };
 
   if (loading) return <p>Loading...</p>;

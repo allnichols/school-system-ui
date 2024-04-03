@@ -1,5 +1,5 @@
 import { useParams } from "@tanstack/react-router";
-import { useFetchTeacher } from "./query/useFetchTeacher";
+import { useFetchTeacher } from "./hooks/useFetchTeacher";
 const Teacher = () => {
   const { id } = useParams({ from: "/teachers/$id" });
   const { loading, error, data } = useFetchTeacher(id);
