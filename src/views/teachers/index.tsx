@@ -1,3 +1,4 @@
+import * as React from "react";
 import Table from "@mui/material/Table";
 import styled from "@mui/material/styles/styled";
 import TableBody from "@mui/material/TableBody";
@@ -8,8 +9,10 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import AddTeacherModal from "./components/addTeacherModal";
 import { useQuery, gql } from "@apollo/client";
-import { Link, Outlet } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 
 const GET_TEACHERS = gql`
   query {
@@ -32,7 +35,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
+const StyledTableCell = styled(TableCell)(() => ({
   [`&.${tableCellClasses.head}`]: {
     fontSize: 18,
   },
@@ -43,57 +46,80 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 const TeachersPage = () => {
   const { loading, error, data } = useQuery(GET_TEACHERS);
+  const [modal, setModal] = React.useState(false);
+  const handleOpenModal = () => setModal(true);
+  const handleCloseModal = () => setModal(false);
+
+  const handleAddTeacher = () => {
+    console.log("Add teacher");
+  };
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
 
   return (
-    <TableContainer component={Paper}>
-      <Table aria-label="teachers table" size="small">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell sx={{ fontWeight: "bold" }}>Name</StyledTableCell>
-            <StyledTableCell align="right" sx={{ fontWeight: "bold" }}>
-              Email
-            </StyledTableCell>
-            <StyledTableCell align="right" sx={{ fontWeight: "bold" }}>
-              Actions
-            </StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {data.getAllTeachers.map((teacher: any) => (
-            <StyledTableRow key={teacher.id}>
-              <TableCell component="th" scope="row">
-                {teacher.firstName + " " + teacher.lastName}
-              </TableCell>
-              <TableCell align="right">{teacher.email}</TableCell>
-              <TableCell align="right">
-                <ButtonGroup
-                  disableElevation
-                  variant="outlined"
-                  aria-label="Disabled button group"
-                >
-                  <Button>
-                    <Link
-                      style={{
-                        color: "white",
-                        textDecoration: "none",
-                      }}
-                      to="/teachers/$id"
-                      params={{ id: teacher.id }}
-                    >
-                      View
-                    </Link>
-                  </Button>
-                  <Button>Delete</Button>
-                </ButtonGroup>
-              </TableCell>
-            </StyledTableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <>
+      <Button
+        variant="outlined"
+        startIcon={<PersonAddIcon />}
+        onClick={handleOpenModal}
+      >
+        Add Teacher
+      </Button>
+      <AddTeacherModal
+        isOpen={modal}
+        handleClose={handleCloseModal}
+        handleAddTeacher={handleAddTeacher}
+      />
+      <TableContainer component={Paper}>
+        <Table aria-label="teachers table" size="small">
+          <TableHead>
+            <TableRow>
+              <StyledTableCell sx={{ fontWeight: "bold" }}>
+                Name
+              </StyledTableCell>
+              <StyledTableCell align="right" sx={{ fontWeight: "bold" }}>
+                Email
+              </StyledTableCell>
+              <StyledTableCell align="right" sx={{ fontWeight: "bold" }}>
+                Actions
+              </StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {data.getAllTeachers.map((teacher: any) => (
+              <StyledTableRow key={teacher.id}>
+                <TableCell component="th" scope="row">
+                  {teacher.firstName + " " + teacher.lastName}
+                </TableCell>
+                <TableCell align="right">{teacher.email}</TableCell>
+                <TableCell align="right">
+                  <ButtonGroup
+                    disableElevation
+                    variant="outlined"
+                    aria-label="Disabled button group"
+                  >
+                    <Button>
+                      <Link
+                        style={{
+                          color: "white",
+                          textDecoration: "none",
+                        }}
+                        to="/teachers/$id"
+                        params={{ id: teacher.id }}
+                      >
+                        View
+                      </Link>
+                    </Button>
+                    <Button>Delete</Button>
+                  </ButtonGroup>
+                </TableCell>
+              </StyledTableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </>
   );
 };
 

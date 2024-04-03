@@ -6,7 +6,7 @@ const Teacher = () => {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
   if (!data) return <div>Not found</div>;
-
+  // add mui components
   return (
     <div>
       <h1>
