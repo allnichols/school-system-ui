@@ -7,7 +7,7 @@ import { CREATE_TEACHER, GET_TEACHERS } from "./gql";
 import Box from "@mui/material/Box";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
-import SnackbarMain from "../../components/snackbar";
+import SnackbarMain, { Severity } from "../../components/snackbar";
 
 type CreateTeacherResult = {
   createTeacher: {
@@ -76,7 +76,7 @@ const CreateTeacher = () => {
       <SnackbarMain
         open={openSnackbar.open}
         message={openSnackbar.message}
-        severity={openSnackbar.severity}
+        severity={openSnackbar.severity as Severity}
       />
       <h1>Create Teacher</h1>
       <form onSubmit={handleSubmit}>

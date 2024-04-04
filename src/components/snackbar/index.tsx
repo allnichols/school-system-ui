@@ -1,10 +1,17 @@
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 
+export enum Severity {
+  Error = "error",
+  Info = "info",
+  Success = "success",
+  Warning = "warning",
+}
+
 type SnackbarProps = {
   open: boolean;
   message: string;
-  severity: "error" | "info" | "success" | "warning";
+  severity: Severity;
 };
 
 const SnackbarMain = ({ open, message, severity }: SnackbarProps) => {
