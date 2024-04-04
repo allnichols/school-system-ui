@@ -3,10 +3,11 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useNavigate } from "@tanstack/react-router";
 import { useMutation } from "@apollo/client";
-import { CREATE_TEACHER } from "./gql";
+import { CREATE_TEACHER, GET_TEACHERS } from "./gql";
 import Box from "@mui/material/Box";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
+import SnackbarMain from "../../components/snackbar";
 
 type CreateTeacherResult = {
   createTeacher: {
@@ -23,9 +24,16 @@ const CreateTeacher = () => {
   const [firstName, setFirstName] = React.useState("");
   const [lastName, setLastName] = React.useState("");
   const [email, setEmail] = React.useState("");
+  const [openSnackbar, setOpenSnackbar] = React.useState({
+    open: false,
+    message: "",
+    severity: "success",
+  });
   const navigate = useNavigate({ from: "teachers/create" });
 
-  const [createTeacher] = useMutation<CreateTeacherResult>(CREATE_TEACHER);
+  const [createTeacher] = useMutation<CreateTeacherResult>(CREATE_TEACHER, {
+    refetchQueries: [{ query: GET_TEACHERS }],
+  });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,17 +53,31 @@ const CreateTeacher = () => {
           setFirstName("");
           setLastName("");
           setEmail("");
+          setOpenSnackbar({
+            open: true,
+            message: "Teacher created successfully",
+            severity: "success",
+          });
         }
       })
       .catch((error) => {
         if (error) {
-          console.error(error);
+          setOpenSnackbar({
+            open: true,
+            message: "Error creating teacher",
+            severity: "error",
+          });
         }
       });
   };
 
   return (
     <>
+      <SnackbarMain
+        open={openSnackbar.open}
+        message={openSnackbar.message}
+        severity={openSnackbar.severity}
+      />
       <h1>Create Teacher</h1>
       <form onSubmit={handleSubmit}>
         <Box sx={{ marginBottom: 2 }}>
