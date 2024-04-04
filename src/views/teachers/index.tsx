@@ -36,7 +36,7 @@ const StyledTableCell = styled(TableCell)(() => ({
 }));
 
 const TeachersPage = () => {
-  const { loading, error, data } = useQuery(GET_TEACHERS);
+  const { loading, error, data, refetch } = useQuery(GET_TEACHERS);
   const [
     createTeacher,
     { data: createdTeacher, loading: createdLoading, error: createdError },
@@ -49,18 +49,20 @@ const TeachersPage = () => {
     firstName: string,
     lastName: string,
     email: string,
-    dob: Date | null
+    dob: string | null
   ) => {
-    console.log(firstName, lastName, email, dob);
     createTeacher({
       variables: {
         teacher: {
           firstName: firstName,
           lastName: lastName,
           email: email,
-          dob: dob?.toISOString(),
+          dob: dob,
         },
       },
+    }).then(() => {
+      handleCloseModal();
+      refetch();
     });
   };
 
@@ -73,6 +75,7 @@ const TeachersPage = () => {
         variant="outlined"
         startIcon={<PersonAddIcon />}
         onClick={handleOpenModal}
+        sx={{ marginBottom: 2 }}
       >
         Add Teacher
       </Button>
@@ -112,7 +115,7 @@ const TeachersPage = () => {
                     <Button>
                       <Link
                         style={{
-                          color: "white",
+                          color: "inherit",
                           textDecoration: "none",
                         }}
                         to="/teachers/$id"

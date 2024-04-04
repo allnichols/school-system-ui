@@ -14,7 +14,7 @@ type AddTeacherModalProps = {
     firstName: string,
     lastName: string,
     email: string,
-    dob: Date | null
+    dob: string | null
   ) => void;
 };
 
@@ -35,7 +35,7 @@ const AddTeacherModal = ({
   handleClose,
   handleAddTeacher,
 }: AddTeacherModalProps) => {
-  const [dob, setDob] = React.useState<Date | null>(new Date());
+  const [dob, setDob] = React.useState<string | null>(null);
   const [firstName, setFirstName] = React.useState("");
   const [lastName, setLastName] = React.useState("");
   const [email, setEmail] = React.useState("");
@@ -100,8 +100,8 @@ const AddTeacherModal = ({
             <DatePicker
               label="Date of Birth"
               value={dob ? dayjs(dob) : null}
-              onChange={(value) => {
-                setDob(value?.toDate() || null);
+              onChange={(value: any) => {
+                setDob(value?.toDate().toString() || null);
               }}
             />
           </Box>
