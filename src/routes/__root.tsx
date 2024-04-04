@@ -31,6 +31,17 @@ export const Route = createRootRoute({
             Teachers
           </Link>
         </Button>{" "}
+        <Button>
+          <Link
+            style={{
+              color: "white",
+              textDecoration: "none",
+            }}
+            to="/courses"
+          >
+            Courses
+          </Link>
+        </Button>{" "}
         <TanStackRouterDevtools />
       </Header>
       <Container style={{ marginTop: "2rem" }} maxWidth="lg">

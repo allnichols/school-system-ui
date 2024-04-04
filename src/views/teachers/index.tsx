@@ -10,9 +10,12 @@ import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import { useQuery } from "@apollo/client";
-import { GET_TEACHERS } from "./gql";
 import { Link } from "@tanstack/react-router";
-import { Teacher } from "../../generated/graphql";
+import {
+  Teacher,
+  GetAllTeachersDocument,
+  GetAllTeachersQuery,
+} from "../../generated/graphql";
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "&:nth-of-type(odd)": {
@@ -33,7 +36,9 @@ const StyledTableCell = styled(TableCell)(() => ({
 }));
 
 const TeachersPage = () => {
-  const { loading, error, data } = useQuery(GET_TEACHERS);
+  const { loading, error, data } = useQuery<GetAllTeachersQuery>(
+    GetAllTeachersDocument
+  );
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
@@ -68,12 +73,12 @@ const TeachersPage = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.getAllTeachers.map((teacher: Teacher) => (
-              <StyledTableRow key={teacher.id}>
+            {data?.getAllTeachers?.map((teacher) => (
+              <StyledTableRow key={teacher?.id}>
                 <TableCell component="th" scope="row">
-                  {teacher.firstName + " " + teacher.lastName}
+                  {teacher?.firstName + " " + teacher?.lastName}
                 </TableCell>
-                <TableCell align="right">{teacher.email}</TableCell>
+                <TableCell align="right">{teacher?.email}</TableCell>
                 <TableCell align="right">
                   <ButtonGroup
                     disableElevation
@@ -87,7 +92,7 @@ const TeachersPage = () => {
                           textDecoration: "none",
                         }}
                         to="/teachers/$id"
-                        params={{ id: teacher.id }}
+                        params={{ id: teacher?.id ?? "" }}
                       >
                         View
                       </Link>

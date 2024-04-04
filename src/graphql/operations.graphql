@@ -27,3 +27,16 @@ mutation createTeacher($teacher: TeacherInput!) {
     dob
   }
 }
+
+query getAllCourses {
+  getAllCourses {
+    id
+    courseName
+    courseTeacher {
+      firstName
+      lastName
+    }
+    gradeLevel
+    __typename
+  }
+}
