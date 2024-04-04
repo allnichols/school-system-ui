@@ -1,0 +1,29 @@
+query getAllTeachers {
+  getAllTeachers {
+    id
+    firstName
+    lastName
+    email
+    dob
+  }
+}
+
+query getTeacherById($id: ID!) {
+  getTeacherById(id: $id) {
+    id
+    firstName
+    lastName
+    email
+    dob
+  }
+}
+
+mutation createTeacher($teacher: TeacherInput!) {
+  createTeacher(teacher: $teacher) {
+    id
+    firstName
+    lastName
+    email
+    dob
+  }
+}
