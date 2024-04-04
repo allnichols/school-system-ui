@@ -12,7 +12,6 @@ import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import { useQuery } from "@apollo/client";
 import { Link } from "@tanstack/react-router";
 import {
-  Teacher,
   GetAllTeachersDocument,
   GetAllTeachersQuery,
 } from "../../generated/graphql";

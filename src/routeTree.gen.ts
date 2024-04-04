@@ -17,6 +17,7 @@ import { Route as TeachersIndexImport } from './routes/teachers.index'
 import { Route as CoursesIndexImport } from './routes/courses.index'
 import { Route as TeachersCreateImport } from './routes/teachers_.create'
 import { Route as TeachersIdImport } from './routes/teachers.$id'
+import { Route as CoursesCreateImport } from './routes/courses_.create'
 
 // Create Virtual Routes
 
@@ -49,12 +50,21 @@ const TeachersIdRoute = TeachersIdImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const CoursesCreateRoute = CoursesCreateImport.update({
+  path: '/courses/create',
+  getParentRoute: () => rootRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
     '/': {
       preLoaderRoute: typeof IndexLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/courses/create': {
+      preLoaderRoute: typeof CoursesCreateImport
       parentRoute: typeof rootRoute
     }
     '/teachers/$id': {
@@ -80,6 +90,7 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren([
   IndexLazyRoute,
+  CoursesCreateRoute,
   TeachersIdRoute,
   TeachersCreateRoute,
   CoursesIndexRoute,
