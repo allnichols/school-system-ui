@@ -12,12 +12,12 @@ import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import { useQuery } from "@apollo/client";
 import { GET_TEACHERS } from "./gql";
 import { Link } from "@tanstack/react-router";
+import { Teacher } from "../../generated/graphql";
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "&:nth-of-type(odd)": {
     backgroundColor: theme.palette.action.hover,
   },
-  // hide last border
   "&:last-child td, &:last-child th": {
     border: 0,
   },
@@ -68,7 +68,7 @@ const TeachersPage = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.getAllTeachers.map((teacher: any) => (
+            {data.getAllTeachers.map((teacher: Teacher) => (
               <StyledTableRow key={teacher.id}>
                 <TableCell component="th" scope="row">
                   {teacher.firstName + " " + teacher.lastName}
