@@ -1,4 +1,3 @@
-import * as React from "react";
 import Table from "@mui/material/Table";
 import styled from "@mui/material/styles/styled";
 import TableBody from "@mui/material/TableBody";
@@ -10,10 +9,8 @@ import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import Alert from "@mui/material/Alert";
-import AddTeacherModal from "./components/addTeacherModal";
-import { useQuery, useMutation } from "@apollo/client";
-import { GET_TEACHERS, CREATE_TEACHER } from "./gql";
+import { useQuery } from "@apollo/client";
+import { GET_TEACHERS } from "./gql";
 import { Link } from "@tanstack/react-router";
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
@@ -36,35 +33,7 @@ const StyledTableCell = styled(TableCell)(() => ({
 }));
 
 const TeachersPage = () => {
-  const { loading, error, data, refetch } = useQuery(GET_TEACHERS);
-  const [
-    createTeacher,
-    { data: createdTeacher, loading: createdLoading, error: createdError },
-  ] = useMutation(CREATE_TEACHER);
-  const [modal, setModal] = React.useState(false);
-  const handleOpenModal = () => setModal(true);
-  const handleCloseModal = () => setModal(false);
-
-  const handleAddTeacher = (
-    firstName: string,
-    lastName: string,
-    email: string,
-    dob: string | null
-  ) => {
-    createTeacher({
-      variables: {
-        teacher: {
-          firstName: firstName,
-          lastName: lastName,
-          email: email,
-          dob: dob,
-        },
-      },
-    }).then(() => {
-      handleCloseModal();
-      refetch();
-    });
-  };
+  const { loading, error, data } = useQuery(GET_TEACHERS);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
@@ -74,16 +43,15 @@ const TeachersPage = () => {
       <Button
         variant="outlined"
         startIcon={<PersonAddIcon />}
-        onClick={handleOpenModal}
         sx={{ marginBottom: 2 }}
       >
-        Add Teacher
+        <Link
+          style={{ color: "inherit", textDecoration: "none" }}
+          to="/teachers/create"
+        >
+          Add Teacher
+        </Link>
       </Button>
-      <AddTeacherModal
-        isOpen={modal}
-        handleClose={handleCloseModal}
-        handleAddTeacher={handleAddTeacher}
-      />
       <TableContainer component={Paper}>
         <Table aria-label="teachers table" size="small">
           <TableHead>
@@ -132,10 +100,6 @@ const TeachersPage = () => {
           </TableBody>
         </Table>
       </TableContainer>
-      {createdTeacher && (
-        <Alert severity="success">Teacher created successfully</Alert>
-      )}
-      {createdError && <Alert severity="error">Error creating teacher</Alert>}
     </>
   );
 };
