@@ -16,7 +16,10 @@ const CreateCourse = () => {
     message: "",
     severity: "success",
   });
-  const navigate = useNavigate();
+
+  const handleSelectTeacher = (e: any) => {
+    console.log("Teacher selected", e);
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -53,7 +56,7 @@ const CreateCourse = () => {
             required
           />
 
-          <SearchTeacherField />
+          <SearchTeacherField selectTeacher={handleSelectTeacher} />
         </Box>
 
         <Button

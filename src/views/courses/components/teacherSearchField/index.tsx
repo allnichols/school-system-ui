@@ -7,7 +7,11 @@ import {
   GetAllTeachersQuery,
 } from "../../../../generated/graphql";
 
-const SearchTeacherField = () => {
+type SearchTeacherFieldProps = {
+  selectTeacher: (e: any) => void;
+};
+
+const SearchTeacherField = ({ selectTeacher }: SearchTeacherFieldProps) => {
   const [searchTerm, setSearchTerm] = React.useState("");
   const [searchResults, setSearchResults] = React.useState([]);
   const { data, loading, error } = useQuery(GetAllTeachersDocument);
@@ -31,6 +35,7 @@ const SearchTeacherField = () => {
       getOptionLabel={(option) => `${option?.firstName} ${option?.lastName}`}
       style={{ width: 300 }}
       renderInput={(params) => <TextField {...params} label="Teacher Search" />}
+      onSelect={(e) => selectTeacher(e)}
     />
   );
 };
