@@ -40,3 +40,15 @@ query getAllCourses {
     __typename
   }
 }
+
+mutation courseCourse($course: CourseInput!) {
+  createCourse(course: $course) {
+    id
+    courseName
+    courseTeacher {
+      firstName
+      lastName
+    }
+    gradeLevel
+  }
+}

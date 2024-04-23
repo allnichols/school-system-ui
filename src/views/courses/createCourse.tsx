@@ -2,15 +2,16 @@ import React from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useNavigate } from "@tanstack/react-router";
+import { useMutation } from "@apollo/client";
 import SnackbarMain, { Severity } from "../../components/snackbar";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import SearchTeacherField from "./components/teacherSearchField";
-// import {} from '../../generated/graphql';
 
 const CreateCourse = () => {
   const [courseName, setCourseName] = React.useState("");
   const [gradeLevel, setGradeLevel] = React.useState("");
+  const [teacher, setTeacher] = React.useState("");
   const [openSnackbar, setOpenSnackbar] = React.useState({
     open: false,
     message: "",
@@ -18,7 +19,7 @@ const CreateCourse = () => {
   });
 
   const handleSelectTeacher = (e: any) => {
-    console.log("Teacher selected", e);
+    setTeacher(e.target.value);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
