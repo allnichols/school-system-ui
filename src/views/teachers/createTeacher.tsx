@@ -1,13 +1,15 @@
 import React from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { useNavigate } from "@tanstack/react-router";
 import { useMutation } from "@apollo/client";
-import { CREATE_TEACHER, GET_TEACHERS } from "./gql";
 import Box from "@mui/material/Box";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
 import SnackbarMain, { Severity } from "../../components/snackbar";
+import {
+  CreateTeacherDocument,
+  GetAllTeachersDocument,
+} from "../../generated/graphql";
 
 type CreateTeacherResult = {
   createTeacher: {
@@ -29,11 +31,13 @@ const CreateTeacher = () => {
     message: "",
     severity: "success",
   });
-  const navigate = useNavigate({ from: "teachers/create" });
 
-  const [createTeacher] = useMutation<CreateTeacherResult>(CREATE_TEACHER, {
-    refetchQueries: [{ query: GET_TEACHERS }],
-  });
+  const [createTeacher] = useMutation<CreateTeacherResult>(
+    CreateTeacherDocument,
+    {
+      refetchQueries: [{ query: GetAllTeachersDocument }],
+    }
+  );
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
