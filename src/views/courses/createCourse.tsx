@@ -13,6 +13,7 @@ import SearchTeacherField from "./components/teacherSearchField";
 import {
   CreateCourseDocument,
   GetAllCoursesDocument,
+  Teacher,
 } from "../../generated/graphql";
 
 const gradeLevels = [
@@ -33,7 +34,7 @@ const gradeLevels = [
 const CreateCourse = () => {
   const [courseName, setCourseName] = React.useState("");
   const [gradeLevel, setGradeLevel] = React.useState(1);
-  const [teacher, setTeacher] = React.useState("");
+  const [teacher, setTeacher] = React.useState({});
   const [openSnackbar, setOpenSnackbar] = React.useState({
     open: false,
     message: "",
@@ -44,8 +45,9 @@ const CreateCourse = () => {
     refetchQueries: [{ query: GetAllCoursesDocument }],
   });
 
-  const handleSelectTeacher = (e: any) => {
-    setTeacher(e.target.value);
+  const handleSelectTeacher = (value: Teacher) => {
+    console.log(value);
+    setTeacher(value);
   };
 
   const handleSubmit = (e: React.FormEvent) => {

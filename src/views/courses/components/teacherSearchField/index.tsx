@@ -12,8 +12,6 @@ type SearchTeacherFieldProps = {
 };
 
 const SearchTeacherField = ({ selectTeacher }: SearchTeacherFieldProps) => {
-  const [searchTerm, setSearchTerm] = React.useState("");
-  const [searchResults, setSearchResults] = React.useState([]);
   const { data, loading, error } = useQuery(GetAllTeachersDocument);
 
   if (error) {
@@ -33,9 +31,11 @@ const SearchTeacherField = ({ selectTeacher }: SearchTeacherFieldProps) => {
       id="teacher-search"
       options={data?.getAllTeachers || []}
       getOptionLabel={(option) => `${option?.firstName} ${option?.lastName}`}
+      onChange={(e, value) => {
+        if (value) selectTeacher(value);
+      }}
       style={{ width: 300 }}
       renderInput={(params) => <TextField {...params} label="Teacher Search" />}
-      onSelect={(e) => selectTeacher(e)}
     />
   );
 };
