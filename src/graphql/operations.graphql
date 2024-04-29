@@ -41,7 +41,7 @@ query getAllCourses {
   }
 }
 
-mutation courseCourse($course: CourseInput!) {
+mutation createCourse($course: CourseInput!) {
   createCourse(course: $course) {
     id
     courseName
