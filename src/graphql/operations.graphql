@@ -37,6 +37,14 @@ query getAllCourses {
   }
 }
 
+query getCourseById($id: ID!) {
+  getCourseById(id: $id) {
+    id
+    courseName
+    gradeLevel
+  }
+}
+
 mutation createCourse($course: CourseInput!) {
   createCourse(course: $course) {
     id

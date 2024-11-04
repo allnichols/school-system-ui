@@ -1,10 +1,6 @@
-import * as React from 'react'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from "@tanstack/react-router";
+import { Course } from "../views/courses/course";
 
-export const Route = createFileRoute('/courses/$id')({
-  component: RouteComponent,
-})
-
-function RouteComponent() {
-  return 'Hello /courses/$id!'
-}
+export const Route = createFileRoute("/courses/$id")({
+  component: () => <Course />,
+});
