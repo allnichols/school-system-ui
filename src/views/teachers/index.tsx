@@ -96,7 +96,9 @@ const TeachersPage = () => {
                         View
                       </Link>
                     </Button>
-                    <Button>Delete</Button>
+                    <Button variant="outlined" color="error">
+                      Delete
+                    </Button>
                   </ButtonGroup>
                 </TableCell>
               </StyledTableRow>
