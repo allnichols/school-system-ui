@@ -8,7 +8,7 @@ import {
 } from "../../../../generated/graphql";
 
 type SearchTeacherFieldProps = {
-  selectTeacher: (e: any) => void;
+  selectTeacher: React.Dispatch<React.SetStateAction<string>>;
 };
 
 const SearchTeacherField = ({ selectTeacher }: SearchTeacherFieldProps) => {
@@ -32,7 +32,7 @@ const SearchTeacherField = ({ selectTeacher }: SearchTeacherFieldProps) => {
       options={data?.getAllTeachers || []}
       getOptionLabel={(option) => `${option?.firstName} ${option?.lastName}`}
       onChange={(e, value) => {
-        if (value) selectTeacher(value);
+        if (value) selectTeacher(value.id);
       }}
       style={{ width: 300 }}
       renderInput={(params) => <TextField {...params} label="Teacher Search" />}
@@ -40,4 +40,4 @@ const SearchTeacherField = ({ selectTeacher }: SearchTeacherFieldProps) => {
   );
 };
 
-export default SearchTeacherField;
+export { SearchTeacherField };

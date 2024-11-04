@@ -13,6 +13,7 @@ import {
   CreateCourseDocument,
   GetAllCoursesDocument,
 } from "../../generated/graphql";
+import { SearchTeacherField } from "./components/teacherSearchField";
 
 const gradeLevels = [
   { value: 1, label: "1st Grade" },
@@ -32,6 +33,7 @@ const gradeLevels = [
 const CreateCourse = () => {
   const [courseName, setCourseName] = React.useState("");
   const [gradeLevel, setGradeLevel] = React.useState(1);
+  const [teacher, setTeacher] = React.useState("");
   const [openSnackbar, setOpenSnackbar] = React.useState({
     open: false,
     message: "",
@@ -115,6 +117,8 @@ const CreateCourse = () => {
                 </MenuItem>
               ))}
             </Select>
+            <SearchTeacherField selectTeacher={setTeacher} />
+            {/* < */}
           </FormControl>
         </Box>
 
