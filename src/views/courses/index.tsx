@@ -81,7 +81,7 @@ const CoursesPage = () => {
             <TableRow>
               <StyledTableCell>Course Name</StyledTableCell>
               <StyledTableCell align="right">Teacher</StyledTableCell>
-              <StyledTableCell align="right">Students</StyledTableCell>
+              <StyledTableCell align="right">Grade Level</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
