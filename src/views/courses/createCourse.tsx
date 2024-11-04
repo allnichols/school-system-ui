@@ -9,11 +9,9 @@ import Box from "@mui/material/Box";
 import FormControl from "@mui/material/FormControl";
 import { useMutation } from "@apollo/client";
 import SnackbarMain, { Severity } from "../../components/snackbar";
-import SearchTeacherField from "./components/teacherSearchField";
 import {
   CreateCourseDocument,
   GetAllCoursesDocument,
-  Teacher,
 } from "../../generated/graphql";
 
 const gradeLevels = [
@@ -34,7 +32,6 @@ const gradeLevels = [
 const CreateCourse = () => {
   const [courseName, setCourseName] = React.useState("");
   const [gradeLevel, setGradeLevel] = React.useState(1);
-  const [teacher, setTeacher] = React.useState({});
   const [openSnackbar, setOpenSnackbar] = React.useState({
     open: false,
     message: "",
@@ -45,11 +42,6 @@ const CreateCourse = () => {
     refetchQueries: [{ query: GetAllCoursesDocument }],
   });
 
-  const handleSelectTeacher = (value: Teacher) => {
-    console.log(value);
-    setTeacher(value);
-  };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     createCourse({
@@ -57,14 +49,12 @@ const CreateCourse = () => {
         course: {
           courseName,
           gradeLevel,
-          courseTeacher: teacher,
         },
       },
       onCompleted: (data) => {
         if (data?.createCourse?.id) {
           setCourseName("");
           setGradeLevel(1);
-          setTeacher("");
           setOpenSnackbar({
             open: true,
             message: "Course created successfully",
@@ -126,7 +116,6 @@ const CreateCourse = () => {
               ))}
             </Select>
           </FormControl>
-          <SearchTeacherField selectTeacher={handleSelectTeacher} />
         </Box>
 
         <Button

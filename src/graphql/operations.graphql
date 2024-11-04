@@ -32,10 +32,6 @@ query getAllCourses {
   getAllCourses {
     id
     courseName
-    courseTeacher {
-      firstName
-      lastName
-    }
     gradeLevel
     __typename
   }
@@ -45,10 +41,6 @@ mutation createCourse($course: CourseInput!) {
   createCourse(course: $course) {
     id
     courseName
-    courseTeacher {
-      firstName
-      lastName
-    }
     gradeLevel
   }
 }
