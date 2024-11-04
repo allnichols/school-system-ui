@@ -18,6 +18,7 @@ import { Route as CoursesIndexImport } from './routes/courses.index'
 import { Route as TeachersCreateImport } from './routes/teachers_.create'
 import { Route as TeachersIdImport } from './routes/teachers.$id'
 import { Route as CoursesCreateImport } from './routes/courses_.create'
+import { Route as CoursesIdImport } from './routes/courses.$id'
 
 // Create Virtual Routes
 
@@ -61,6 +62,12 @@ const CoursesCreateRoute = CoursesCreateImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const CoursesIdRoute = CoursesIdImport.update({
+  id: '/courses/$id',
+  path: '/courses/$id',
+  getParentRoute: () => rootRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -70,6 +77,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/courses/$id': {
+      id: '/courses/$id'
+      path: '/courses/$id'
+      fullPath: '/courses/$id'
+      preLoaderRoute: typeof CoursesIdImport
       parentRoute: typeof rootRoute
     }
     '/courses_/create': {
@@ -114,6 +128,7 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
+  '/courses/$id': typeof CoursesIdRoute
   '/courses/create': typeof CoursesCreateRoute
   '/teachers/$id': typeof TeachersIdRoute
   '/teachers/create': typeof TeachersCreateRoute
@@ -123,6 +138,7 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
+  '/courses/$id': typeof CoursesIdRoute
   '/courses/create': typeof CoursesCreateRoute
   '/teachers/$id': typeof TeachersIdRoute
   '/teachers/create': typeof TeachersCreateRoute
@@ -133,6 +149,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexLazyRoute
+  '/courses/$id': typeof CoursesIdRoute
   '/courses_/create': typeof CoursesCreateRoute
   '/teachers/$id': typeof TeachersIdRoute
   '/teachers_/create': typeof TeachersCreateRoute
@@ -144,6 +161,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/courses/$id'
     | '/courses/create'
     | '/teachers/$id'
     | '/teachers/create'
@@ -152,6 +170,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/courses/$id'
     | '/courses/create'
     | '/teachers/$id'
     | '/teachers/create'
@@ -160,6 +179,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/courses/$id'
     | '/courses_/create'
     | '/teachers/$id'
     | '/teachers_/create'
@@ -170,6 +190,7 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
+  CoursesIdRoute: typeof CoursesIdRoute
   CoursesCreateRoute: typeof CoursesCreateRoute
   TeachersIdRoute: typeof TeachersIdRoute
   TeachersCreateRoute: typeof TeachersCreateRoute
@@ -179,6 +200,7 @@ export interface RootRouteChildren {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
+  CoursesIdRoute: CoursesIdRoute,
   CoursesCreateRoute: CoursesCreateRoute,
   TeachersIdRoute: TeachersIdRoute,
   TeachersCreateRoute: TeachersCreateRoute,
@@ -197,6 +219,7 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/courses/$id",
         "/courses_/create",
         "/teachers/$id",
         "/teachers_/create",
@@ -206,6 +229,9 @@ export const routeTree = rootRoute
     },
     "/": {
       "filePath": "index.lazy.tsx"
+    },
+    "/courses/$id": {
+      "filePath": "courses.$id.tsx"
     },
     "/courses_/create": {
       "filePath": "courses_.create.tsx"

@@ -13,6 +13,7 @@ import {
 import { useQuery } from "@apollo/client";
 import Button from "@mui/material/Button";
 import { Link } from "@tanstack/react-router";
+import { ButtonGroup } from "@mui/material";
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "&:nth-of-type(odd)": {
@@ -46,7 +47,7 @@ const CoursesPage = () => {
         <Button
           variant="outlined"
           // startIcon={<PersonAddIcon />}
-          sx={{ marginBottom: 2 }}
+          sx={{ mb: 2 }}
         >
           <Link
             style={{ color: "inherit", textDecoration: "none" }}
@@ -65,7 +66,7 @@ const CoursesPage = () => {
       <Button
         variant="outlined"
         // startIcon={<PersonAddIcon />}
-        sx={{ marginBottom: 2 }}
+        sx={{ mb: 2 }}
       >
         <Link
           style={{ color: "inherit", textDecoration: "none" }}
@@ -83,7 +84,46 @@ const CoursesPage = () => {
               <StyledTableCell align="right">Students</StyledTableCell>
             </TableRow>
           </TableHead>
-          <TableBody></TableBody>
+          <TableBody>
+            {data?.getAllCourses?.map((course) => {
+              return (
+                <StyledTableRow key={course?.id}>
+                  <StyledTableCell component="th" scope="row">
+                    {course?.courseName}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    "Teacher goes here"
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {course?.gradeLevel}
+                  </StyledTableCell>
+                  <TableCell align="right">
+                    <ButtonGroup
+                      disableElevation
+                      variant="outlined"
+                      aria-label="Disabled button group"
+                    >
+                      <Button>
+                        <Link
+                          style={{
+                            color: "inherit",
+                            textDecoration: "none",
+                          }}
+                          to="/courses/$id"
+                          params={{ id: course?.id ?? "" }}
+                        >
+                          View
+                        </Link>
+                      </Button>
+                      <Button variant="outlined" color="error">
+                        Delete
+                      </Button>
+                    </ButtonGroup>
+                  </TableCell>
+                </StyledTableRow>
+              );
+            })}
+          </TableBody>
         </Table>
       </TableContainer>
     </>
