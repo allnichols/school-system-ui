@@ -10,6 +10,11 @@ const Course = () => {
     <Suspense fallback={<div>Loading...</div>}>
       <h1>{data.getCourseById?.courseName}</h1>
       <p>Grade Level: {data.getCourseById?.gradeLevel}</p>
+      <p>
+        {data.getCourseById?.teacher
+          ? `${data.getCourseById.teacher.firstName} ${data.getCourseById.teacher.firstName}`
+          : "There is not teacher attached to this class."}
+      </p>
     </Suspense>
   );
 };

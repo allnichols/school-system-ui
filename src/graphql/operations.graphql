@@ -42,6 +42,11 @@ query getCourseById($id: ID!) {
     id
     courseName
     gradeLevel
+    teacher {
+      id
+      firstName
+      lastName
+    }
   }
 }
 
