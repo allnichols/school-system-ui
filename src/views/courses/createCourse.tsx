@@ -33,7 +33,7 @@ const gradeLevels = [
 const CreateCourse = () => {
   const [courseName, setCourseName] = React.useState("");
   const [gradeLevel, setGradeLevel] = React.useState(1);
-  const [teacher, setTeacher] = React.useState("");
+  const [teacherId, setTeacherId] = React.useState("");
   const [openSnackbar, setOpenSnackbar] = React.useState({
     open: false,
     message: "",
@@ -51,6 +51,7 @@ const CreateCourse = () => {
         course: {
           courseName,
           gradeLevel,
+          teacherId: teacherId || null,
         },
       },
       onCompleted: (data) => {
@@ -117,7 +118,7 @@ const CreateCourse = () => {
                 </MenuItem>
               ))}
             </Select>
-            <SearchTeacherField selectTeacher={setTeacher} />
+            <SearchTeacherField selectTeacher={setTeacherId} />
             {/* < */}
           </FormControl>
         </Box>
