@@ -50,6 +50,13 @@ query getCourseById($id: ID!) {
   }
 }
 
+query searchTeachers($name: String!) {
+  searchTeachers(name: $name) {
+    id
+    fullName
+  }
+}
+
 mutation createCourse($course: CourseInput!) {
   createCourse(course: $course) {
     id
