@@ -2,11 +2,21 @@ import { Suspense } from "react";
 import { useParams } from "@tanstack/react-router";
 import { useFetchCourseById } from "./hooks/useFetchCourseById";
 import { gradeLevels } from "./utils";
-import { Input, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { InputLabel, MenuItem, Select } from "@mui/material";
+import { SearchTeacherField } from "./components/teacherSearchField";
 
 const Course = () => {
   const { id } = useParams({ from: "/courses/$id" });
   const { data } = useFetchCourseById(id);
+
+  const selectTeacher = (teacherId: string) => {
+    console.log(teacherId);
+  };
+
+  const teacherName =
+    data?.getCourseById?.teacher?.firstName +
+    " " +
+    data?.getCourseById?.teacher?.lastName;
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
@@ -24,7 +34,11 @@ const Course = () => {
           );
         })}
       </Select>
-      <TextField variant="standard" placeholder="Teacher" />
+      <SearchTeacherField
+        selectTeacher={selectTeacher}
+        currentTeacher={teacherName}
+        label="Teacher"
+      />
       <p>
         {data.getCourseById?.teacher
           ? `${data.getCourseById.teacher.firstName} ${data.getCourseById.teacher.lastName}`

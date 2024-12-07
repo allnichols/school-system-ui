@@ -29,11 +29,13 @@ export type Course = {
   courseName: Scalars['String']['output'];
   gradeLevel: Scalars['Int']['output'];
   id: Scalars['ID']['output'];
+  teacher?: Maybe<Teacher>;
 };
 
 export type CourseInput = {
   courseName: Scalars['String']['input'];
   gradeLevel: Scalars['Int']['input'];
+  teacherId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type Mutation = {
@@ -58,6 +60,7 @@ export type Query = {
   getAllTeachers?: Maybe<Array<Maybe<Teacher>>>;
   getCourseById?: Maybe<Course>;
   getTeacherById?: Maybe<Teacher>;
+  searchTeachers?: Maybe<Array<Maybe<Teacher>>>;
 };
 
 
@@ -70,12 +73,18 @@ export type QueryGetTeacherByIdArgs = {
   id: Scalars['ID']['input'];
 };
 
+
+export type QuerySearchTeachersArgs = {
+  name: Scalars['String']['input'];
+};
+
 export type Teacher = {
   __typename?: 'Teacher';
   address?: Maybe<Address>;
   dob: Scalars['String']['output'];
   email: Scalars['String']['output'];
   firstName: Scalars['String']['output'];
+  fullName: Scalars['String']['output'];
   id: Scalars['ID']['output'];
   lastName: Scalars['String']['output'];
 };
@@ -197,6 +206,7 @@ export type CourseResolvers<ContextType = any, ParentType extends ResolversParen
   courseName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   gradeLevel?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  teacher?: Resolver<Maybe<ResolversTypes['Teacher']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -210,6 +220,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   getAllTeachers?: Resolver<Maybe<Array<Maybe<ResolversTypes['Teacher']>>>, ParentType, ContextType>;
   getCourseById?: Resolver<Maybe<ResolversTypes['Course']>, ParentType, ContextType, RequireFields<QueryGetCourseByIdArgs, 'id'>>;
   getTeacherById?: Resolver<Maybe<ResolversTypes['Teacher']>, ParentType, ContextType, RequireFields<QueryGetTeacherByIdArgs, 'id'>>;
+  searchTeachers?: Resolver<Maybe<Array<Maybe<ResolversTypes['Teacher']>>>, ParentType, ContextType, RequireFields<QuerySearchTeachersArgs, 'name'>>;
 };
 
 export type TeacherResolvers<ContextType = any, ParentType extends ResolversParentTypes['Teacher'] = ResolversParentTypes['Teacher']> = {
@@ -217,6 +228,7 @@ export type TeacherResolvers<ContextType = any, ParentType extends ResolversPare
   dob?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   firstName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  fullName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   lastName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -255,6 +267,20 @@ export type GetAllCoursesQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetAllCoursesQuery = { __typename?: 'Query', getAllCourses?: Array<{ __typename: 'Course', id: string, courseName: string, gradeLevel: number } | null> | null };
 
+export type GetCourseByIdQueryVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type GetCourseByIdQuery = { __typename?: 'Query', getCourseById?: { __typename?: 'Course', id: string, courseName: string, gradeLevel: number, teacher?: { __typename?: 'Teacher', id: string, firstName: string, lastName: string } | null } | null };
+
+export type SearchTeachersQueryVariables = Exact<{
+  name: Scalars['String']['input'];
+}>;
+
+
+export type SearchTeachersQuery = { __typename?: 'Query', searchTeachers?: Array<{ __typename?: 'Teacher', id: string, fullName: string } | null> | null };
+
 export type CreateCourseMutationVariables = Exact<{
   course: CourseInput;
 }>;
@@ -267,4 +293,6 @@ export const GetAllTeachersDocument = {"kind":"Document","definitions":[{"kind":
 export const GetTeacherByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getTeacherById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getTeacherById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"dob"}}]}}]}}]} as unknown as DocumentNode<GetTeacherByIdQuery, GetTeacherByIdQueryVariables>;
 export const CreateTeacherDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createTeacher"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"teacher"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"TeacherInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createTeacher"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"teacher"},"value":{"kind":"Variable","name":{"kind":"Name","value":"teacher"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"dob"}}]}}]}}]} as unknown as DocumentNode<CreateTeacherMutation, CreateTeacherMutationVariables>;
 export const GetAllCoursesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getAllCourses"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getAllCourses"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"courseName"}},{"kind":"Field","name":{"kind":"Name","value":"gradeLevel"}},{"kind":"Field","name":{"kind":"Name","value":"__typename"}}]}}]}}]} as unknown as DocumentNode<GetAllCoursesQuery, GetAllCoursesQueryVariables>;
+export const GetCourseByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getCourseById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getCourseById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"courseName"}},{"kind":"Field","name":{"kind":"Name","value":"gradeLevel"}},{"kind":"Field","name":{"kind":"Name","value":"teacher"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}}]}}]}}]}}]} as unknown as DocumentNode<GetCourseByIdQuery, GetCourseByIdQueryVariables>;
+export const SearchTeachersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"searchTeachers"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"name"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"searchTeachers"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"Variable","name":{"kind":"Name","value":"name"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"fullName"}}]}}]}}]} as unknown as DocumentNode<SearchTeachersQuery, SearchTeachersQueryVariables>;
 export const CreateCourseDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createCourse"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"course"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CourseInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createCourse"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"course"},"value":{"kind":"Variable","name":{"kind":"Name","value":"course"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"courseName"}},{"kind":"Field","name":{"kind":"Name","value":"gradeLevel"}}]}}]}}]} as unknown as DocumentNode<CreateCourseMutation, CreateCourseMutationVariables>;

@@ -1,41 +1,55 @@
 import React from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
-import { useQuery } from "@apollo/client";
+import { useLazyQuery, useQuery } from "@apollo/client";
 import {
   GetAllTeachersDocument,
-  GetAllTeachersQuery,
+  SearchTeachersDocument,
+  SearchTeachersQuery,
+  Teacher,
 } from "../../../../generated/graphql";
 
 type SearchTeacherFieldProps = {
-  selectTeacher: React.Dispatch<React.SetStateAction<string>>;
+  selectTeacher:
+    | React.Dispatch<React.SetStateAction<string>>
+    | ((teacherId: string) => void);
+  currentTeacher?: string;
+  label?: string;
 };
 
-const SearchTeacherField = ({ selectTeacher }: SearchTeacherFieldProps) => {
-  const { data, loading, error } = useQuery(GetAllTeachersDocument);
+const SearchTeacherField = ({
+  selectTeacher,
+  currentTeacher,
+  label = "Teacher Search",
+}: SearchTeacherFieldProps) => {
+  const [options, setOptions] = React.useState<
+    SearchTeachersQuery["searchTeachers"]
+  >([]);
+  const [searchUsers] = useLazyQuery(SearchTeachersDocument, {
+    onCompleted: (data) => {
+      setOptions(data?.searchTeachers);
+    },
+  });
 
-  if (error) {
-    return <div>Error loading teachers</div>;
-  }
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (!data) {
-    return <div>No teachers found</div>;
-  }
+  const handleInputChange = (value: string) => {
+    if (value.length >= 1) {
+      searchUsers({
+        variables: {
+          name: value,
+        },
+      });
+    }
+  };
 
   return (
     <Autocomplete
-      id="teacher-search"
-      options={data?.getAllTeachers || []}
-      getOptionLabel={(option) => `${option?.firstName} ${option?.lastName}`}
-      onChange={(e, value) => {
-        if (value) selectTeacher(value.id);
-      }}
-      style={{ width: 300 }}
-      renderInput={(params) => <TextField {...params} label="Teacher Search" />}
+      freeSolo
+      options={options || []}
+      getOptionLabel={(option) =>
+        typeof option === "string" ? option : option?.fullName || ""
+      }
+      onInputChange={(_, value) => handleInputChange(value)}
+      renderInput={(params) => <TextField {...params} label={label} />}
     />
   );
 };
