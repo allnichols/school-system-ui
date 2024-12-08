@@ -49,6 +49,11 @@ const SearchTeacherField = ({
         typeof option === "string" ? option : option?.fullName || ""
       }
       onInputChange={(_, value) => handleInputChange(value)}
+      onChange={(_, value) => {
+        if (typeof value !== "string" && value?.id) {
+          selectTeacher(value.id);
+        }
+      }}
       renderInput={(params) => <TextField {...params} label={label} />}
     />
   );
