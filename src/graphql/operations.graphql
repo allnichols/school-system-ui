@@ -3,6 +3,7 @@ query getAllTeachers {
     id
     firstName
     lastName
+    fullName
     email
     dob
   }
@@ -44,8 +45,7 @@ query getCourseById($id: ID!) {
     gradeLevel
     teacher {
       id
-      firstName
-      lastName
+      fullName
     }
   }
 }

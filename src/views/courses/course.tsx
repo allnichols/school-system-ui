@@ -9,14 +9,11 @@ const Course = () => {
   const { id } = useParams({ from: "/courses/$id" });
   const { data } = useFetchCourseById(id);
 
-  const selectTeacher = (teacherId: string) => {
+  const selectTeacher = (teacherId: any) => {
     console.log(teacherId);
   };
 
-  const teacherName =
-    data?.getCourseById?.teacher?.firstName +
-    " " +
-    data?.getCourseById?.teacher?.lastName;
+  const teacherName = data.getCourseById?.teacher?.fullName;
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
@@ -41,7 +38,7 @@ const Course = () => {
       />
       <p>
         {data.getCourseById?.teacher
-          ? `${data.getCourseById.teacher.firstName} ${data.getCourseById.teacher.lastName}`
+          ? `${data.getCourseById.teacher.fullName}`
           : "There is not teacher attached to this class."}
       </p>
     </Suspense>

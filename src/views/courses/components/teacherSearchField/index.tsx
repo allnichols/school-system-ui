@@ -22,35 +22,32 @@ const SearchTeacherField = ({
   currentTeacher,
   label = "Teacher Search",
 }: SearchTeacherFieldProps) => {
-  const [options, setOptions] = React.useState<
-    SearchTeachersQuery["searchTeachers"]
-  >([]);
-  const [searchUsers] = useLazyQuery(SearchTeachersDocument, {
+  const [options, setOptions] = React.useState<any>([]);
+  const [getAllTeachers] = useLazyQuery(GetAllTeachersDocument, {
     onCompleted: (data) => {
-      setOptions(data?.searchTeachers);
+      const teacherOptions = data.getAllTeachers?.map((teacher) => {
+        return {
+          id: teacher?.id,
+          fullName: teacher?.fullName,
+        };
+      });
+      setOptions(teacherOptions);
     },
   });
 
-  const handleInputChange = (value: string) => {
-    if (value.length >= 1) {
-      searchUsers({
-        variables: {
-          name: value,
-        },
-      });
-    }
+  const handleOpen = () => {
+    getAllTeachers();
   };
 
   return (
     <Autocomplete
       freeSolo
       options={options || []}
-      getOptionLabel={(option) =>
-        typeof option === "string" ? option : option?.fullName || ""
-      }
-      onInputChange={(_, value) => handleInputChange(value)}
-      onChange={(_, value) => {
-        if (typeof value !== "string" && value?.id) {
+      getOptionLabel={(option: any) => option.fullName}
+      defaultValue={currentTeacher}
+      onOpen={handleOpen}
+      onChange={(_, value: any) => {
+        if (value && typeof value !== "string") {
           selectTeacher(value.id);
         }
       }}
