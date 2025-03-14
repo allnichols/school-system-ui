@@ -6,11 +6,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import {
-  GetAllCoursesDocument,
-  GetAllCoursesQuery,
-} from "../../generated/graphql";
-import { useQuery } from "@apollo/client";
 import Button from "@mui/material/Button";
 import { Link } from "@tanstack/react-router";
 import { ButtonGroup } from "@mui/material";
@@ -34,32 +29,28 @@ const StyledTableCell = styled(TableCell)(() => ({
 }));
 
 const CoursesPage = () => {
-  const { loading, error, data } = useQuery<GetAllCoursesQuery>(
-    GetAllCoursesDocument
-  );
+  // if (loading) return <p>Loading...</p>;
 
-  if (loading) return <p>Loading...</p>;
-
-  if (error) return <p>Error :(</p>;
-  if (data?.getAllCourses?.length === 0) {
-    return (
-      <>
-        <Button
-          variant="outlined"
-          // startIcon={<PersonAddIcon />}
-          sx={{ mb: 2 }}
-        >
-          <Link
-            style={{ color: "inherit", textDecoration: "none" }}
-            to="/courses/create"
-          >
-            Create Course
-          </Link>
-        </Button>
-        <p>No courses found</p>
-      </>
-    );
-  }
+  // if (error) return <p>Error :(</p>;
+  // if (data?.getAllCourses?.length === 0) {
+  //   return (
+  //     <>
+  //       <Button
+  //         variant="outlined"
+  //         // startIcon={<PersonAddIcon />}
+  //         sx={{ mb: 2 }}
+  //       >
+  //         <Link
+  //           style={{ color: "inherit", textDecoration: "none" }}
+  //           to="/courses/create"
+  //         >
+  //           Create Course
+  //         </Link>
+  //       </Button>
+  //       <p>No courses found</p>
+  //     </>
+  //   );
+  // }
 
   return (
     <>
@@ -84,46 +75,7 @@ const CoursesPage = () => {
               <StyledTableCell align="right">Grade Level</StyledTableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
-            {data?.getAllCourses?.map((course) => {
-              return (
-                <StyledTableRow key={course?.id}>
-                  <StyledTableCell component="th" scope="row">
-                    {course?.courseName}
-                  </StyledTableCell>
-                  <StyledTableCell align="right">
-                    "Teacher goes here"
-                  </StyledTableCell>
-                  <StyledTableCell align="right">
-                    {course?.gradeLevel}
-                  </StyledTableCell>
-                  <TableCell align="right">
-                    <ButtonGroup
-                      disableElevation
-                      variant="outlined"
-                      aria-label="Disabled button group"
-                    >
-                      <Button>
-                        <Link
-                          style={{
-                            color: "inherit",
-                            textDecoration: "none",
-                          }}
-                          to="/courses/$id"
-                          params={{ id: course?.id ?? "" }}
-                        >
-                          View
-                        </Link>
-                      </Button>
-                      <Button variant="outlined" color="error">
-                        Delete
-                      </Button>
-                    </ButtonGroup>
-                  </TableCell>
-                </StyledTableRow>
-              );
-            })}
-          </TableBody>
+          <TableBody></TableBody>
         </Table>
       </TableContainer>
     </>
