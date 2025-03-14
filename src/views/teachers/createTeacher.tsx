@@ -1,15 +1,10 @@
 import React from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { useMutation } from "@apollo/client";
 import Box from "@mui/material/Box";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
 import SnackbarMain, { Severity } from "../../components/snackbar";
-import {
-  CreateTeacherDocument,
-  GetAllTeachersDocument,
-} from "../../generated/graphql";
 
 type CreateTeacherResult = {
   createTeacher: {
@@ -32,48 +27,7 @@ const CreateTeacher = () => {
     severity: "success",
   });
 
-  const [createTeacher] = useMutation<CreateTeacherResult>(
-    CreateTeacherDocument,
-    {
-      refetchQueries: [{ query: GetAllTeachersDocument }],
-    }
-  );
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    await createTeacher({
-      variables: {
-        teacher: {
-          firstName,
-          lastName,
-          email,
-          dob,
-        },
-      },
-    })
-      .then((data) => {
-        if (data?.data?.createTeacher.id) {
-          setDob(null);
-          setFirstName("");
-          setLastName("");
-          setEmail("");
-          setOpenSnackbar({
-            open: true,
-            message: "Teacher created successfully",
-            severity: "success",
-          });
-        }
-      })
-      .catch((error) => {
-        if (error) {
-          setOpenSnackbar({
-            open: true,
-            message: "Error creating teacher",
-            severity: "error",
-          });
-        }
-      });
-  };
+  const handleSubmit = async (e: React.FormEvent) => {};
 
   return (
     <>

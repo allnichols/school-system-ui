@@ -1,13 +1,6 @@
 import React from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
-import { useLazyQuery, useQuery } from "@apollo/client";
-import {
-  GetAllTeachersDocument,
-  SearchTeachersDocument,
-  SearchTeachersQuery,
-  Teacher,
-} from "../../../../generated/graphql";
 
 type SearchTeacherFieldProps = {
   selectTeacher:
@@ -22,21 +15,11 @@ const SearchTeacherField = ({
   currentTeacher,
   label = "Teacher Search",
 }: SearchTeacherFieldProps) => {
+  console.log("currentTeacher", currentTeacher);
   const [options, setOptions] = React.useState<any>([]);
-  const [getAllTeachers] = useLazyQuery(GetAllTeachersDocument, {
-    onCompleted: (data) => {
-      const teacherOptions = data.getAllTeachers?.map((teacher) => {
-        return {
-          id: teacher?.id,
-          fullName: teacher?.fullName,
-        };
-      });
-      setOptions(teacherOptions);
-    },
-  });
 
   const handleOpen = () => {
-    getAllTeachers();
+    console.log("open");
   };
 
   return (

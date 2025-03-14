@@ -1,17 +1,12 @@
 import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
-import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+
 import "./main.css";
 
 import { routeTree } from "./routeTree.gen.ts";
 
 const router = createRouter({ routeTree });
-
-const client = new ApolloClient({
-  uri: "http://localhost:8080/graphql",
-  cache: new InMemoryCache(),
-});
 
 declare module "@tanstack/react-router" {
   interface Register {
@@ -25,8 +20,6 @@ const container = rootElement || document.createElement("div");
 const root = ReactDOM.createRoot(container);
 root.render(
   <StrictMode>
-    <ApolloProvider client={client}>
-      <RouterProvider router={router} />
-    </ApolloProvider>
+    <RouterProvider router={router} />
   </StrictMode>
 );

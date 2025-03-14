@@ -9,12 +9,7 @@ import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import { useQuery } from "@apollo/client";
 import { Link } from "@tanstack/react-router";
-import {
-  GetAllTeachersDocument,
-  GetAllTeachersQuery,
-} from "../../generated/graphql";
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "&:nth-of-type(odd)": {
@@ -35,12 +30,8 @@ const StyledTableCell = styled(TableCell)(() => ({
 }));
 
 const TeachersPage = () => {
-  const { loading, error, data } = useQuery<GetAllTeachersQuery>(
-    GetAllTeachersDocument
-  );
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error :(</p>;
+  // if (loading) return <p>Loading...</p>;
+  // if (error) return <p>Error :(</p>;
 
   return (
     <>
@@ -71,39 +62,7 @@ const TeachersPage = () => {
               </StyledTableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
-            {data?.getAllTeachers?.map((teacher) => (
-              <StyledTableRow key={teacher?.id}>
-                <TableCell component="th" scope="row">
-                  {teacher?.firstName + " " + teacher?.lastName}
-                </TableCell>
-                <TableCell align="right">{teacher?.email}</TableCell>
-                <TableCell align="right">
-                  <ButtonGroup
-                    disableElevation
-                    variant="outlined"
-                    aria-label="Disabled button group"
-                  >
-                    <Button>
-                      <Link
-                        style={{
-                          color: "inherit",
-                          textDecoration: "none",
-                        }}
-                        to="/teachers/$id"
-                        params={{ id: teacher?.id ?? "" }}
-                      >
-                        View
-                      </Link>
-                    </Button>
-                    <Button variant="outlined" color="error">
-                      Delete
-                    </Button>
-                  </ButtonGroup>
-                </TableCell>
-              </StyledTableRow>
-            ))}
-          </TableBody>
+          <TableBody></TableBody>
         </Table>
       </TableContainer>
     </>
