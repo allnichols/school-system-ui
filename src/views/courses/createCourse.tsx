@@ -7,12 +7,7 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import FormControl from "@mui/material/FormControl";
-import { useMutation } from "@apollo/client";
 import SnackbarMain, { Severity } from "../../components/snackbar";
-import {
-  CreateCourseDocument,
-  GetAllCoursesDocument,
-} from "../../generated/graphql";
 import { SearchTeacherField } from "./components/teacherSearchField";
 
 const gradeLevels = [
@@ -40,42 +35,7 @@ const CreateCourse = () => {
     severity: "success",
   });
 
-  const [createCourse] = useMutation(CreateCourseDocument, {
-    refetchQueries: [{ query: GetAllCoursesDocument }],
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    createCourse({
-      variables: {
-        course: {
-          courseName,
-          gradeLevel,
-          teacherId: teacherId || null,
-        },
-      },
-      onCompleted: (data) => {
-        if (data?.createCourse?.id) {
-          setCourseName("");
-          setGradeLevel(1);
-          setOpenSnackbar({
-            open: true,
-            message: "Course created successfully",
-            severity: "success",
-          });
-        }
-      },
-      onError: (error) => {
-        if (error) {
-          setOpenSnackbar({
-            open: true,
-            message: "Error creating course",
-            severity: "error",
-          });
-        }
-      },
-    });
-  };
+  const handleSubmit = (e: React.FormEvent) => {};
 
   return (
     <>
