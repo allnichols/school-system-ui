@@ -3,9 +3,9 @@ import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 import Sidebar from "../components/sidebar";
 import List from "@mui/joy/List";
 import ListItem from "@mui/joy/ListItem";
-import Container from "@mui/material/Container";
 import Localization from "../utils/Localization";
 import { Box, ListItemContent, Typography } from "@mui/joy";
+import BreadCrumbs from "../components/breadcrumbs";
 
 const SidebarItems = [
   {
@@ -23,40 +23,36 @@ const SidebarItems = [
 ];
 
 export const Route = createRootRoute({
-  component: () => (
-    <Localization>
-      <Box sx={{ display: "flex", height: "100%" }}>
-        <Sidebar>
-          <List>
-            {SidebarItems.map((item) => (
-              <ListItem key={item.title}>
-                <ListItemContent>
-                  <Typography level="title-sm">{item.title}</Typography>
-                </ListItemContent>
-                {/* <Link
-                style={{
-                  color: "white",
-                  textDecoration: "none",
-                }}
-                to={item.to}
-              >
-                {item.title}
-              </Link> */}
-              </ListItem>
-            ))}
-          </List>
-          <TanStackRouterDevtools />
-        </Sidebar>
-        <Box
-          sx={{
-            flexGrow: 1, // Take up the remaining space
-            padding: 2, // Add some padding
-            overflow: "auto", // Enable scrolling if content overflows
-          }}
-        >
-          <Outlet />{" "}
+  component: () => {
+    return (
+      <Localization>
+        <Box sx={{ display: "flex", height: "100%" }}>
+          <Sidebar>
+            <List>
+              {SidebarItems.map((item) => (
+                <ListItem key={item.title}>
+                  <ListItemContent>
+                    <Link to={item.to}>
+                      <Typography level="title-sm">{item.title}</Typography>
+                    </Link>
+                  </ListItemContent>
+                </ListItem>
+              ))}
+            </List>
+            <TanStackRouterDevtools />
+          </Sidebar>
+          <Box
+            sx={{
+              flexGrow: 1, // Take up the remaining space
+              padding: 2, // Add some padding
+              overflow: "auto", // Enable scrolling if content overflows
+            }}
+          >
+            <BreadCrumbs />
+            <Outlet />{" "}
+          </Box>
         </Box>
-      </Box>
-    </Localization>
-  ),
+      </Localization>
+    );
+  },
 });
