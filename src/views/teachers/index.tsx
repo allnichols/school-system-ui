@@ -22,7 +22,7 @@ const StyledTableCell = styled(TableCell)(() => ({
 const TeachersPage = () => {
   return (
     <>
-      <Typography level="h2" sx={{ mb: 4, bt: 4 }}>
+      <Typography level="h1" sx={{ mb: 4, mt: 3 }}>
         Teachers
       </Typography>
       <Button variant="solid" sx={{ marginBottom: 2 }}>
