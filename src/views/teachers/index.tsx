@@ -1,25 +1,21 @@
-import Table from "@mui/material/Table";
-import styled from "@mui/material/styles/styled";
-import TableBody from "@mui/material/TableBody";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
+import Table from "@mui/joy/Table";
+import Sheet from "@mui/joy/Sheet";
 import Button from "@mui/joy/Button";
 import { Link } from "@tanstack/react-router";
 import { Typography } from "@mui/joy";
-
-const StyledTableCell = styled(TableCell)(() => ({
-  [`&.${tableCellClasses.head}`]: {
-    fontSize: 18,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 16,
-  },
-}));
+import { useQuery } from "@tanstack/react-query";
 
 const TeachersPage = () => {
+  const { isPending, error, data, isFetching } = useQuery({
+    queryKey: [],
+    queryFn: async () => {
+      const response = await fetch("http://localhost:8080/api/teachers");
+      return await response.json();
+    },
+  });
+
+  console.log({ isPending, error, data, isFetching });
+
   return (
     <>
       <Typography level="h1" sx={{ mb: 4, mt: 3 }}>
@@ -33,24 +29,40 @@ const TeachersPage = () => {
           Add Teacher
         </Link>
       </Button>
-      <TableContainer component={Paper}>
-        <Table aria-label="teachers table" size="small">
-          <TableHead>
-            <TableRow>
-              <StyledTableCell sx={{ fontWeight: "bold" }}>
-                Name
-              </StyledTableCell>
-              <StyledTableCell align="right" sx={{ fontWeight: "bold" }}>
-                Email
-              </StyledTableCell>
-              <StyledTableCell align="right" sx={{ fontWeight: "bold" }}>
-                Actions
-              </StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody></TableBody>
+      <Sheet
+        variant="soft"
+        sx={{ pt: 1, borderRadius: "md", border: "1px solid lightgrey" }}
+      >
+        <Table
+          stripe="odd"
+          hoverRow
+          sx={{
+            captionSide: "top",
+            "& tbody": { bgcolor: "background.surface" },
+            "--TableCell-headBackground":
+              "var(--joy-palette-background-level1)",
+          }}
+        >
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data?.map((teacher: any) => (
+              <tr key={teacher.id}>
+                <td>{`${teacher.firstName} ${teacher.lastName}`}</td>
+                <td>{teacher.email}</td>
+                <td>
+                  <Link to={`/teachers/${teacher.id}`}>Edit</Link>
+                </td>
+              </tr>
+            ))}
+          </tbody>
         </Table>
-      </TableContainer>
+      </Sheet>
     </>
   );
 };
