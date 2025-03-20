@@ -2,7 +2,7 @@ import { Breadcrumbs } from "@mui/joy";
 import Crumbs from "./crumbs";
 function BreadCrumbs() {
   return (
-    <Breadcrumbs>
+    <Breadcrumbs size="sm" sx={{ paddingLeft: 0 }}>
       <Crumbs />
     </Breadcrumbs>
   );

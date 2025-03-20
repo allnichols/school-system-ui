@@ -6,19 +6,9 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import Button from "@mui/material/Button";
-import ButtonGroup from "@mui/material/ButtonGroup";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import Button from "@mui/joy/Button";
 import { Link } from "@tanstack/react-router";
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
-    backgroundColor: theme.palette.action.hover,
-  },
-  "&:last-child td, &:last-child th": {
-    border: 0,
-  },
-}));
+import { Typography } from "@mui/joy";
 
 const StyledTableCell = styled(TableCell)(() => ({
   [`&.${tableCellClasses.head}`]: {
@@ -30,16 +20,12 @@ const StyledTableCell = styled(TableCell)(() => ({
 }));
 
 const TeachersPage = () => {
-  // if (loading) return <p>Loading...</p>;
-  // if (error) return <p>Error :(</p>;
-
   return (
     <>
-      <Button
-        variant="outlined"
-        startIcon={<PersonAddIcon />}
-        sx={{ marginBottom: 2 }}
-      >
+      <Typography level="h2" sx={{ mb: 4, bt: 4 }}>
+        Teachers
+      </Typography>
+      <Button variant="solid" sx={{ marginBottom: 2 }}>
         <Link
           style={{ color: "inherit", textDecoration: "none" }}
           to="/teachers/create"

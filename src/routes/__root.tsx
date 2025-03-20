@@ -44,7 +44,7 @@ export const Route = createRootRoute({
           <Box
             sx={{
               flexGrow: 1, // Take up the remaining space
-              padding: 2, // Add some padding
+              padding: 6, // Add some padding
               overflow: "auto", // Enable scrolling if content overflows
             }}
           >
