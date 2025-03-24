@@ -1,12 +1,13 @@
 import React from "react";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
-import FormControl from "@mui/material/FormControl";
+import {
+  Typography,
+  Box,
+  Button,
+  Input,
+  Select,
+  Option,
+  FormControl,
+} from "@mui/joy";
 import SnackbarMain, { Severity } from "../../components/snackbar";
 import { SearchTeacherField } from "./components/teacherSearchField";
 
@@ -35,7 +36,15 @@ const CreateCourse = () => {
     severity: "success",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {};
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Add submission logic here
+    setOpenSnackbar({
+      open: true,
+      message: "Course created successfully!",
+      severity: "success",
+    });
+  };
 
   return (
     <>
@@ -44,7 +53,9 @@ const CreateCourse = () => {
         message={openSnackbar.message}
         severity={openSnackbar.severity as Severity}
       />
-      <Typography variant="h4">Create Course</Typography>
+      <Typography level="h4" component="h1" sx={{ marginBottom: "1rem" }}>
+        Create Course
+      </Typography>
       <form onSubmit={handleSubmit}>
         <Box
           sx={{
@@ -55,37 +66,33 @@ const CreateCourse = () => {
             width: "50%",
           }}
         >
-          <TextField
-            label="Course Name"
-            value={courseName}
-            onChange={(e) => setCourseName(e.target.value)}
-            required
-          />
           <FormControl>
-            <InputLabel id="select-grade-level">Grade Level</InputLabel>
+            <Input
+              placeholder="Course Name"
+              value={courseName}
+              onChange={(e) => setCourseName(e.target.value)}
+              required
+            />
+          </FormControl>
+          <FormControl>
             <Select
-              labelId="select-grade-level"
-              id="select-grade-level"
               value={gradeLevel.toString()}
-              label="Grade Level"
-              onChange={(e: SelectChangeEvent) =>
-                setGradeLevel(Number(e.target.value))
-              }
+              onChange={(e, newValue) => setGradeLevel(Number(newValue))}
+              placeholder="Select Grade Level"
             >
               {gradeLevels.map((grade) => (
-                <MenuItem key={grade.value} value={grade.value}>
+                <Option key={grade.value} value={grade.value.toString()}>
                   {grade.label}
-                </MenuItem>
+                </Option>
               ))}
             </Select>
-            <SearchTeacherField selectTeacher={setTeacherId} />
-            {/* < */}
           </FormControl>
+          <SearchTeacherField selectTeacher={setTeacherId} />
         </Box>
 
         <Button
           type="submit"
-          variant="contained"
+          variant="solid"
           disabled={!courseName || !gradeLevel}
         >
           Create Course
