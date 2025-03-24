@@ -1,11 +1,11 @@
-import Snackbar from "@mui/material/Snackbar";
-import Alert from "@mui/material/Alert";
+import { Snackbar, Alert } from "@mui/joy";
 
 export enum Severity {
-  Error = "error",
-  Info = "info",
-  Success = "success",
-  Warning = "warning",
+  PRIMARY = "primary",
+  NEUTRAL = "neutral",
+  SUCCESS = "success",
+  WARNING = "warning",
+  DANGER = "danger",
 }
 
 type SnackbarProps = {
@@ -17,7 +17,9 @@ type SnackbarProps = {
 const SnackbarMain = ({ open, message, severity }: SnackbarProps) => {
   return (
     <Snackbar open={open} autoHideDuration={6000}>
-      <Alert severity={severity}>{message}</Alert>
+      <Alert variant="soft" color={severity}>
+        {message}
+      </Alert>
     </Snackbar>
   );
 };
