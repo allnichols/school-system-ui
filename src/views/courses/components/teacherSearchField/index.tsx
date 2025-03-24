@@ -1,6 +1,6 @@
 import React from "react";
-import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
+import TextField from "@mui/joy/TextField";
+import Autocomplete from "@mui/joy/Autocomplete";
 
 type SearchTeacherFieldProps = {
   selectTeacher:
@@ -24,7 +24,6 @@ const SearchTeacherField = ({
 
   return (
     <Autocomplete
-      freeSolo
       options={options || []}
       getOptionLabel={(option: any) => option.fullName}
       defaultValue={currentTeacher}
@@ -34,7 +33,6 @@ const SearchTeacherField = ({
           selectTeacher(value.id);
         }
       }}
-      renderInput={(params) => <TextField {...params} label={label} />}
     />
   );
 };
