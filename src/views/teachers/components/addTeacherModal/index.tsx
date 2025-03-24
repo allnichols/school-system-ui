@@ -1,10 +1,8 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Modal from "@mui/material/Modal";
-import TextField from "@mui/material/TextField";
+import { Box, Typography, Button, Input, FormLabel } from "@mui/joy";
+import Modal from "@mui/joy/Modal";
+import ModalDialog from "@mui/joy/ModalDialog";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import Button from "@mui/material/Button";
 import dayjs from "dayjs";
 
 type AddTeacherModalProps = {
@@ -16,18 +14,6 @@ type AddTeacherModalProps = {
     email: string,
     dob: string | null
   ) => void;
-};
-
-const style = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 500,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 6,
 };
 
 const AddTeacherModal = ({
@@ -49,94 +35,93 @@ const AddTeacherModal = ({
   };
 
   return (
-    <div>
-      <Modal
-        open={isOpen}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <Typography variant="h6" component="h2">
-            Add Teacher
-          </Typography>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-            }}
-          >
-            <TextField
-              required
-              label="First Name"
+    <Modal open={isOpen} onClose={handleClose}>
+      <ModalDialog>
+        <Typography level="h4" component="h2">
+          Add Teacher
+        </Typography>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            gap: 2,
+            marginTop: 2,
+          }}
+        >
+          <Box>
+            <FormLabel required>First Name</FormLabel>
+            <Input
               name="firstName"
               onChange={handleChange}
               value={firstName}
-            />
-            <TextField
               required
-              label="Last Name"
+            />
+          </Box>
+          <Box>
+            <FormLabel required>Last Name</FormLabel>
+            <Input
               name="lastName"
               onChange={handleChange}
               value={lastName}
+              required
             />
           </Box>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-              marginTop: 2,
-            }}
-          >
-            <TextField
-              required
-              label="Email"
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            gap: 2,
+            marginTop: 2,
+          }}
+        >
+          <Box>
+            <FormLabel required>Email</FormLabel>
+            <Input
               name="email"
               onChange={handleChange}
               value={email}
-            />
-            <DatePicker
-              label="Date of Birth"
-              value={dob ? dayjs(dob) : null}
-              onChange={(value: any) => {
-                setDob(value?.toDate().toString() || null);
-              }}
+              required
             />
           </Box>
-
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-              marginTop: 2,
+          <DatePicker
+            label="Date of Birth"
+            value={dob ? dayjs(dob) : null}
+            onChange={(value: any) => {
+              setDob(value?.toDate().toString() || null);
+            }}
+          />
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            gap: 2,
+            marginTop: 2,
+          }}
+        >
+          <Button
+            variant="solid"
+            onClick={() => handleAddTeacher(firstName, lastName, email, dob)}
+            disabled={!firstName || !lastName || !email || !dob}
+          >
+            Add Teacher
+          </Button>
+          <Button
+            variant="outlined"
+            onClick={() => {
+              handleClose();
+              setFirstName("");
+              setLastName("");
+              setEmail("");
+              setDob(null);
             }}
           >
-            <Button
-              variant="contained"
-              onClick={() => handleAddTeacher(firstName, lastName, email, dob)}
-              disabled={!firstName || !lastName || !email || !dob}
-            >
-              Add Teacher
-            </Button>
-            <Button
-              variant="outlined"
-              onClick={() => {
-                handleClose();
-                setFirstName("");
-                setLastName("");
-                setEmail("");
-                setDob(null);
-              }}
-            >
-              Cancel
-            </Button>
-          </Box>
+            Cancel
+          </Button>
         </Box>
-      </Modal>
-    </div>
+      </ModalDialog>
+    </Modal>
   );
 };
 

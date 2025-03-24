@@ -1,8 +1,7 @@
 import React from "react";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import Input from "@mui/joy/Input";
+import FormLabel from "@mui/joy/FormLabel";
+import Button from "@mui/joy/Button";
 import dayjs from "dayjs";
 import SnackbarMain, { Severity } from "../../components/snackbar";
 
@@ -27,7 +26,14 @@ const CreateTeacher = () => {
     severity: "success",
   });
 
-  const handleSubmit = async (e: React.FormEvent) => {};
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setOpenSnackbar({
+      open: true,
+      message: `🎉 Teacher ${firstName} ${lastName} created successfully!`,
+      severity: "success",
+    });
+  };
 
   return (
     <>
@@ -36,48 +42,61 @@ const CreateTeacher = () => {
         message={openSnackbar.message}
         severity={openSnackbar.severity as Severity}
       />
-      <h1>Create Teacher</h1>
-      <form onSubmit={handleSubmit}>
-        <Box sx={{ marginBottom: 2 }}>
-          <TextField
-            label="First Name"
+      <h1 style={{ color: "purple", textAlign: "center" }}>
+        🎓 Create Teacher 🎉
+      </h1>
+      <form onSubmit={handleSubmit} style={{ textAlign: "center" }}>
+        <div style={{ marginBottom: "1rem" }}>
+          <FormLabel>First Name</FormLabel>
+          <Input
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
-            sx={{ marginRight: 2 }}
-          />
-          <TextField
-            label="Last Name"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-          />
-        </Box>
-        <TextField
-          label="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          sx={{ marginBottom: 2 }}
-        />
-        <Box>
-          <DatePicker
-            label="Date of Birth"
-            value={dob ? dayjs(dob) : null}
-            onChange={(value: any) => {
-              setDob(value?.toString());
-            }}
+            placeholder="Enter first name"
             sx={{ marginBottom: 2 }}
           />
-        </Box>
-
-        <Box sx={{ marginBottom: 2 }}>
-          <Button
-            variant="contained"
-            disabled={!firstName || !lastName || !email || !dob}
-            type="submit"
-            onClick={handleSubmit}
-          >
-            Submit
-          </Button>
-        </Box>
+        </div>
+        <div style={{ marginBottom: "1rem" }}>
+          <FormLabel>Last Name</FormLabel>
+          <Input
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            placeholder="Enter last name"
+            sx={{ marginBottom: 2 }}
+          />
+        </div>
+        <div style={{ marginBottom: "1rem" }}>
+          <FormLabel>Email</FormLabel>
+          <Input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter email"
+            sx={{ marginBottom: 2 }}
+          />
+        </div>
+        <div style={{ marginBottom: "1rem" }}>
+          <FormLabel>Date of Birth</FormLabel>
+          <Input
+            type="date"
+            value={dob || ""}
+            onChange={(e) => setDob(e.target.value)}
+            sx={{ marginBottom: 2 }}
+          />
+        </div>
+        <Button
+          variant="solid"
+          disabled={!firstName || !lastName || !email || !dob}
+          type="submit"
+          sx={{
+            backgroundColor: "purple",
+            color: "white",
+            padding: "0.5rem 1rem",
+            borderRadius: "5px",
+            cursor: "pointer",
+          }}
+        >
+          🎉 Submit 🎉
+        </Button>
       </form>
     </>
   );
