@@ -1,83 +1,48 @@
-import Table from "@mui/material/Table";
-import styled from "@mui/material/styles/styled";
-import TableBody from "@mui/material/TableBody";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import Button from "@mui/material/Button";
+import Table from "@mui/joy/Table";
+import Sheet from "@mui/joy/Sheet";
+import Button from "@mui/joy/Button";
 import { Link } from "@tanstack/react-router";
-import { ButtonGroup } from "@mui/material";
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
-    backgroundColor: theme.palette.action.hover,
-  },
-  "&:last-child td, &:last-child th": {
-    border: 0,
-  },
-}));
-
-const StyledTableCell = styled(TableCell)(() => ({
-  [`&.${tableCellClasses.head}`]: {
-    fontSize: 18,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 16,
-  },
-}));
+import { Typography } from "@mui/joy";
+import { useQuery } from "@tanstack/react-query";
 
 const CoursesPage = () => {
-  // if (loading) return <p>Loading...</p>;
-
-  // if (error) return <p>Error :(</p>;
-  // if (data?.getAllCourses?.length === 0) {
-  //   return (
-  //     <>
-  //       <Button
-  //         variant="outlined"
-  //         // startIcon={<PersonAddIcon />}
-  //         sx={{ mb: 2 }}
-  //       >
-  //         <Link
-  //           style={{ color: "inherit", textDecoration: "none" }}
-  //           to="/courses/create"
-  //         >
-  //           Create Course
-  //         </Link>
-  //       </Button>
-  //       <p>No courses found</p>
-  //     </>
-  //   );
-  // }
-
   return (
     <>
-      <Button
-        variant="outlined"
-        // startIcon={<PersonAddIcon />}
-        sx={{ mb: 2 }}
-      >
+      <Typography level="h1" sx={{ mb: 4, mt: 3 }}>
+        Courses
+      </Typography>
+      <Button variant="solid" sx={{ marginBottom: 2 }}>
         <Link
           style={{ color: "inherit", textDecoration: "none" }}
           to="/courses/create"
         >
-          Create Course
+          Add Course
         </Link>
       </Button>
-      <TableContainer component={Paper}>
-        <Table aria-label="courses table" size="small">
-          <TableHead>
-            <TableRow>
-              <StyledTableCell>Course Name</StyledTableCell>
-              <StyledTableCell align="right">Teacher</StyledTableCell>
-              <StyledTableCell align="right">Grade Level</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody></TableBody>
+      <Sheet
+        variant="soft"
+        sx={{ pt: 1, borderRadius: "md", border: "1px solid lightgrey" }}
+      >
+        <Table
+          stripe="odd"
+          hoverRow
+          sx={{
+            captionSide: "top",
+            "& tbody": { bgcolor: "background.surface" },
+            "--TableCell-headBackground":
+              "var(--joy-palette-background-level1)",
+          }}
+        >
+          <thead>
+            <tr>
+              <th>Course Name</th>
+              <th>Teacher</th>
+              <th>Grade Level</th>
+            </tr>
+          </thead>
+          <tbody>{/* Add rows dynamically here */}</tbody>
         </Table>
-      </TableContainer>
+      </Sheet>
     </>
   );
 };
