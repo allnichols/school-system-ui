@@ -1,6 +1,7 @@
 import Table from "@mui/joy/Table";
 import Sheet from "@mui/joy/Sheet";
-import { Link } from "@tanstack/react-router";
+import Link from "@mui/joy/Link";
+import { useNavigate } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 
 const TeachersTable = () => {
@@ -15,13 +16,14 @@ const TeachersTable = () => {
     },
   });
 
+  const navigate = useNavigate();
+
   return (
     <Sheet
       variant="soft"
       sx={{ pt: 1, borderRadius: "md", border: "1px solid lightgrey" }}
     >
       <Table
-        stripe="odd"
         hoverRow
         sx={{
           captionSide: "top",
@@ -42,7 +44,12 @@ const TeachersTable = () => {
               <td>{`${teacher.firstName} ${teacher.lastName}`}</td>
               <td>{teacher.email}</td>
               <td>
-                <Link to={`/teachers/${teacher.id}`}>Edit</Link>
+                <Link
+                  onClick={() => navigate({ to: `/teachers/${teacher.id}` })}
+                  underline="hover"
+                >
+                  Edit
+                </Link>
               </td>
             </tr>
           ))}
