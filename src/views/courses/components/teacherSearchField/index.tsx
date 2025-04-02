@@ -1,39 +1,70 @@
 import React from "react";
-import TextField from "@mui/joy/TextField";
+import FormLabel from "@mui/joy/FormLabel";
 import Autocomplete from "@mui/joy/Autocomplete";
+import { useQuery } from "@tanstack/react-query";
 
 type SearchTeacherFieldProps = {
-  selectTeacher:
-    | React.Dispatch<React.SetStateAction<string>>
-    | ((teacherId: string) => void);
+  selectTeacher: (
+    e?:
+      | React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+      | React.SyntheticEvent,
+    value?: string | number | undefined,
+    name?: string | undefined
+  ) => void;
   currentTeacher?: string;
   label?: string;
+  Name?: string;
+};
+
+const fetchTeachers = async () => {
+  const response = await fetch("http://localhost:8080/api/teachers");
+  if (!response.ok) {
+    throw new Error("Failed to fetch teachers");
+  }
+  return response.json();
 };
 
 const SearchTeacherField = ({
   selectTeacher,
   currentTeacher,
   label = "Teacher Search",
+  Name = "teacher",
 }: SearchTeacherFieldProps) => {
-  console.log("currentTeacher", currentTeacher);
   const [options, setOptions] = React.useState<any>([]);
 
-  const handleOpen = () => {
-    console.log("open");
+  const { isLoading } = useQuery({
+    queryKey: ["teachers"],
+    queryFn: fetchTeachers,
+    enabled: options.length === 0,
+  });
+  const handleOpen = async () => {
+    if (options.length === 0) {
+      try {
+        const data = await fetchTeachers();
+        setOptions(data);
+      } catch (error) {
+        console.error("Error fetching teachers:", error);
+      }
+    }
   };
 
   return (
-    <Autocomplete
-      options={options || []}
-      getOptionLabel={(option: any) => option.fullName}
-      defaultValue={currentTeacher}
-      onOpen={handleOpen}
-      onChange={(_, value: any) => {
-        if (value && typeof value !== "string") {
-          selectTeacher(value.id);
-        }
-      }}
-    />
+    <>
+      <FormLabel>{label}</FormLabel>
+      <Autocomplete
+        name={Name}
+        loading={isLoading}
+        options={options || []}
+        getOptionLabel={(option: any) => option.fullName}
+        defaultValue={currentTeacher}
+        onOpen={handleOpen}
+        onChange={(_, value: any) => {
+          if (value && typeof value !== "string") {
+            selectTeacher(value.id);
+          }
+        }}
+      />
+    </>
   );
 };
 
