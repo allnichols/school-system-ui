@@ -3,7 +3,9 @@ import Sheet from "@mui/joy/Sheet";
 import Button from "@mui/joy/Button";
 import { Link } from "@tanstack/react-router";
 import { Typography } from "@mui/joy";
-import { useQuery } from "@tanstack/react-query";
+import CoursesTable from "./components/table/CoursesTable";
+import ErrorBoundary from "../../utils/ErrorBoundary";
+import { Suspense } from "react";
 
 const CoursesPage = () => {
   return (
@@ -19,30 +21,17 @@ const CoursesPage = () => {
           Add Course
         </Link>
       </Button>
-      <Sheet
-        variant="soft"
-        sx={{ pt: 1, borderRadius: "md", border: "1px solid lightgrey" }}
+      <ErrorBoundary
+        fallback={
+          <Typography sx={{ color: "red" }}>
+            Failed to load courses. Please try again later.
+          </Typography>
+        }
       >
-        <Table
-          stripe="odd"
-          hoverRow
-          sx={{
-            captionSide: "top",
-            "& tbody": { bgcolor: "background.surface" },
-            "--TableCell-headBackground":
-              "var(--joy-palette-background-level1)",
-          }}
-        >
-          <thead>
-            <tr>
-              <th>Course Name</th>
-              <th>Teacher</th>
-              <th>Grade Level</th>
-            </tr>
-          </thead>
-          <tbody>{/* Add rows dynamically here */}</tbody>
-        </Table>
-      </Sheet>
+        <Suspense fallback={<Typography>Loading Courses...</Typography>}>
+          <CoursesTable />
+        </Suspense>
+      </ErrorBoundary>
     </>
   );
 };
