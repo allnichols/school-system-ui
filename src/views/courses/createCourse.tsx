@@ -38,7 +38,7 @@ const CreateCourse = () => {
   });
 
   const createCourse = async (course: {
-    name: string;
+    courseName: string;
     gradeLevel: number;
     teacherId: string;
   }) => {
@@ -77,7 +77,7 @@ const CreateCourse = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     mutate({
-      name: formData.courseName,
+      courseName: formData.courseName,
       gradeLevel: formData.gradeLevel,
       teacherId: formData.teacherId,
     });
@@ -143,13 +143,18 @@ const CreateCourse = () => {
                   onChange={handleChange}
                   placeholder="Enter first name"
                   sx={{ marginBottom: 2 }}
+                  name="courseName"
                 />
               </div>
               <div style={{ marginBottom: "1rem" }}>
                 <FormLabel>Grade Level</FormLabel>
                 <Select
                   name="gradeLevel"
-                  onChange={(e) => handleChange(e as React.SyntheticEvent)}
+                  onChange={(_, newValue: string | number | null) => {
+                    if (newValue !== null) {
+                      handleChange(undefined, newValue, "gradeLevel");
+                    }
+                  }}
                   placeholder="Select grade level"
                 >
                   {gradeLevels.map((grade) => (

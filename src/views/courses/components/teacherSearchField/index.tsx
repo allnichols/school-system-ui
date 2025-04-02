@@ -52,7 +52,6 @@ const SearchTeacherField = ({
     <>
       <FormLabel>{label}</FormLabel>
       <Autocomplete
-        name={Name}
         loading={isLoading}
         options={options || []}
         getOptionLabel={(option: any) => option.fullName}
@@ -60,7 +59,7 @@ const SearchTeacherField = ({
         onOpen={handleOpen}
         onChange={(_, value: any) => {
           if (value && typeof value !== "string") {
-            selectTeacher(value.id);
+            selectTeacher(undefined, value.id, Name);
           }
         }}
       />
