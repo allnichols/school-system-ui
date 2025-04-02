@@ -5,6 +5,7 @@ import Button from "@mui/joy/Button";
 import Card from "@mui/joy/Card";
 import SnackbarMain, { Severity } from "../../components/snackbar";
 import { Box, Typography } from "@mui/joy";
+import { useMutation } from "@tanstack/react-query";
 
 const CreateTeacher = () => {
   const [dob, setDob] = React.useState<string | null>(null);
@@ -17,13 +18,56 @@ const CreateTeacher = () => {
     severity: "success",
   });
 
+  const createTeacher = async (teacher: {
+    firstName: string;
+    lastName: string;
+    email: string;
+    dob: string;
+  }) => {
+    const response = await fetch("http://localhost:8080/api/teachers", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(teacher),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to create teacher");
+    }
+    return response.json();
+  };
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: createTeacher,
+    onSuccess: () => {
+      setOpenSnackbar({
+        open: true,
+        message: `🎉 Teacher ${firstName} ${lastName} created successfully!`,
+        severity: "success",
+      });
+    },
+    onError: () => {
+      setOpenSnackbar({
+        open: true,
+        message: "Failed to create teacher",
+        severity: "error",
+      });
+    },
+  });
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setOpenSnackbar({
-      open: true,
-      message: `🎉 Teacher ${firstName} ${lastName} created successfully!`,
-      severity: "success",
+    mutate({
+      firstName,
+      lastName,
+      email,
+      dob: dob || "",
     });
+    setFirstName("");
+    setLastName("");
+    setEmail("");
+    setDob(null);
   };
 
   return (
@@ -93,6 +137,8 @@ const CreateTeacher = () => {
                 variant="solid"
                 disabled={!firstName || !lastName || !email || !dob}
                 type="submit"
+                loading={isPending}
+                loadingPosition="start"
               >
                 Submit
               </Button>
