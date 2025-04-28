@@ -2,33 +2,19 @@ import * as React from "react";
 import GlobalStyles from "@mui/joy/GlobalStyles";
 import Avatar from "@mui/joy/Avatar";
 import Box from "@mui/joy/Box";
-import Button from "@mui/joy/Button";
-import Card from "@mui/joy/Card";
-import Chip from "@mui/joy/Chip";
 import Divider from "@mui/joy/Divider";
 import IconButton from "@mui/joy/IconButton";
-import Input from "@mui/joy/Input";
-import LinearProgress from "@mui/joy/LinearProgress";
-import List from "@mui/joy/List";
-import ListItem from "@mui/joy/ListItem";
-import ListItemButton, { listItemButtonClasses } from "@mui/joy/ListItemButton";
-import ListItemContent from "@mui/joy/ListItemContent";
+import { listItemButtonClasses } from "@mui/joy/ListItemButton";
 import Typography from "@mui/joy/Typography";
 import Sheet from "@mui/joy/Sheet";
-import Stack from "@mui/joy/Stack";
-import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
-import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
-import DashboardRoundedIcon from "@mui/icons-material/DashboardRounded";
-import ShoppingCartRoundedIcon from "@mui/icons-material/ShoppingCartRounded";
-import AssignmentRoundedIcon from "@mui/icons-material/AssignmentRounded";
-import QuestionAnswerRoundedIcon from "@mui/icons-material/QuestionAnswerRounded";
-import GroupRoundedIcon from "@mui/icons-material/GroupRounded";
-import SupportRoundedIcon from "@mui/icons-material/SupportRounded";
-import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
-import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import BrightnessAutoRoundedIcon from "@mui/icons-material/BrightnessAutoRounded";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { Link } from "react-router";
+
+type NavItem = {
+  title: string;
+  to: string;
+};
 
 export function closeSidebar() {
   if (typeof window !== "undefined") {
@@ -71,7 +57,7 @@ function Toggler({
   );
 }
 
-export default function Sidebar({ children }: { children: React.ReactNode }) {
+export default function Sidebar({ navItems }: { navItems: NavItem[] }) {
   return (
     <Sheet
       className="Sidebar"
@@ -131,11 +117,6 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
         </IconButton>
         <Typography level="title-lg">Acme School</Typography>
       </Box>
-      <Input
-        size="sm"
-        startDecorator={<SearchRoundedIcon />}
-        placeholder="Search"
-      />
       <Box
         sx={{
           minHeight: 0,
@@ -148,7 +129,18 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
           },
         }}
       >
-        {children}
+        {navItems.map((item, index) => {
+          return (
+            <Link
+              key={index}
+              to={item.to}
+              style={{ textDecoration: "none" }}
+              onClick={() => closeSidebar()}
+            >
+              {item.title}
+            </Link>
+          );
+        })}
       </Box>
       <Divider />
       <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>

@@ -1,9 +1,8 @@
-import { Link, useRouterState } from "@tanstack/react-router";
+import { useLocation, Link } from "react-router"; // Correct import for react-router-dom
 
 function Crumbs() {
-  const router = useRouterState();
-  const location = router.location.pathname.split("/");
-  const pathnames = location.filter((path) => path !== "");
+  const location = useLocation(); // Get the current location object
+  const pathnames = location.pathname.split("/").filter((path) => path !== ""); // Split and filter the path
 
   return (
     <>
@@ -11,17 +10,23 @@ function Crumbs() {
         Home
       </Link>
       {pathnames.map((path, index) => {
-        const routeTo = `/${pathnames.slice(0, index + 1).join("/")}`;
-        const isLast = index === pathnames.length - 1;
+        const routeTo = `/${pathnames.slice(0, index + 1).join("/")}`; // Build the route dynamically
+        const isLast = index === pathnames.length - 1; // Check if it's the last breadcrumb
         return isLast ? (
-          <span key={path}>{" / " + path}</span>
+          <span key={path} style={{ marginLeft: "4px" }}>
+            / {path}
+          </span>
         ) : (
           <Link
             key={path}
             to={routeTo}
-            style={{ textDecoration: "none", marginRight: "4px" }}
+            style={{
+              textDecoration: "none",
+              marginLeft: "4px",
+              marginRight: "4px",
+            }}
           >
-            {" / " + path}
+            / {path}
           </Link>
         );
       })}
