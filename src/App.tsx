@@ -1,10 +1,7 @@
-import { useState } from "react";
 import { Routes, Route } from "react-router";
 import Layout from "./components/layout";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <Routes>
       <Route element={<Layout />}>
